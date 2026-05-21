@@ -38,6 +38,65 @@
       return "$" + Math.round(num).toLocaleString();
     }
 
+    function parseAmount(value){
+      if(value === null || value === undefined || value === ""){
+        return 0;
+      }
+
+      if(typeof value === "number"){
+        return value;
+      }
+
+      const cleaned = String(value)
+        .replace(/[$,]/g, "")
+        .replace(/[()]/g, "-")
+        .trim();
+
+      const num = Number(cleaned);
+      return Number.isFinite(num) ? num : 0;
+    }
+
+    function getFiscalYearColumns(row){
+      return Object.keys(row).filter(function(key){
+        return /^FY\s*20\d{2}$/i.test(key) || /^FY20\d{2}$/i.test(key);
+      });
+    }
+
+    function getProjectAmount(row){
+      const explicitTotal =
+        parseAmount(row["Total"]) ||
+        parseAmount(row["Total Amount"]) ||
+        parseAmount(row["Project Total"]);
+
+      if(explicitTotal){
+        return explicitTotal;
+      }
+
+      return getFiscalYearColumns(row).reduce(function(sum, key){
+        return sum + parseAmount(row[key]);
+      }, 0);
+    }
+
+    function getTargetYears(row){
+      const fundedYears = getFiscalYearColumns(row)
+        .filter(function(key){
+          return parseAmount(row[key]) !== 0;
+        })
+        .map(function(key){
+          return key.replace(/\s+/g, "").toUpperCase();
+        });
+
+      if(fundedYears.length === 1){
+        return fundedYears[0];
+      }
+
+      if(fundedYears.length > 1){
+        return fundedYears[0] + "–" + fundedYears[fundedYears.length - 1];
+      }
+
+      return clean(row["Budget Period"] || row["Target Year"] || row["Fiscal Year"] || "FY2027");
+    }
+
     function categoryFromText(text){
       const t = text.toLowerCase();
 
@@ -133,16 +192,8 @@
             const district = clean(row["District"] || "Countywide");
             const description = clean(row["Description"] || row["Project Description"] || row["Justification"] || `${title} is included in Walton County’s five-year Capital Improvement Plan.`);
 
-            const amount =
-              row["Total"] ||
-              row["Total Amount"] ||
-              row["Project Total"] ||
-              row["FY2027"] ||
-              row["FY 2027"] ||
-              0;
-
-            const target =
-              clean(row["Budget Period"] || row["Target Year"] || row["Fiscal Year"] || "FY2027");
+            const amount = getProjectAmount(row);
+            const target = getTargetYears(row);
 
             const category = categoryFromText(`${title} ${dept} ${description}`);
             const status = statusFromPhase(phase);
