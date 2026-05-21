@@ -707,12 +707,28 @@ function renderProjects(){
     </section>
   `;
 
-  document.querySelector(".wc-project-search")
-    .addEventListener("input", e => {
-      filters.search = e.target.value.toLowerCase().trim();
+  const searchField = document.querySelector(".wc-project-search");
+
+  if(searchField){
+    searchField.addEventListener("input", e => {
+      filters.search = e.target.value.toLowerCase();
       visibleLimit = defaultVisibleCount;
-      renderProjects();
+
+      clearTimeout(window.wcProjectSearchTimer);
+
+      window.wcProjectSearchTimer = setTimeout(() => {
+        renderProjects();
+
+        const refreshedSearchField = document.querySelector(".wc-project-search");
+
+        if(refreshedSearchField){
+          refreshedSearchField.focus();
+          refreshedSearchField.value = filters.search;
+          refreshedSearchField.setSelectionRange(filters.search.length, filters.search.length);
+        }
+      }, 120);
     });
+  }
 
   document.querySelectorAll(".wc-project-filter")
     .forEach(button => {
