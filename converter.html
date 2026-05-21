@@ -81,17 +81,52 @@
           workbook.SheetNames.find(name => name.toLowerCase().includes("proposal summary"))
           || workbook.SheetNames[0];
 
+        const budgetSheetName =
+          workbook.SheetNames.find(name => name.toLowerCase() === "budget")
+          || workbook.SheetNames.find(name => name.toLowerCase().includes("budget"));
+
         const sheet = workbook.Sheets[sheetName];
         const rows = XLSX.utils.sheet_to_json(sheet, { defval: "" });
 
+        const budgetRows = budgetSheetName
+          ? XLSX.utils.sheet_to_json(workbook.Sheets[budgetSheetName], { defval: "" })
+          : [];
+
+        const worksheetByProposal = {};
+
+        budgetRows.forEach(function(row){
+          const proposalKey = clean(row["Proposal"] || row["Proposal Name"] || "");
+          const worksheetName = clean(row["Worksheet"] || row["Worksheet Name"] || "");
+
+          if(proposalKey && worksheetName && !worksheetByProposal[proposalKey]){
+            worksheetByProposal[proposalKey] = worksheetName;
+          }
+        });
+
         const projects = rows
           .filter(row => {
-            const name = clean(row["Worksheet"] || row["Worksheet"] || row["Proposal Name"] || row["Project Name"] || row["Name"]);
+            const proposalName = clean(row["Proposal Name"] || row["Proposal"] || "");
+            const name = clean(
+              worksheetByProposal[proposalName] ||
+              row["Worksheet"] ||
+              row["Worksheet Name"] ||
+              row["Proposal Name"] ||
+              row["Project Name"] ||
+              row["Name"]
+            );
             return name;
           })
           .map(row => {
-            const title = clean(row["Worksheet"] || row["Worksheet"] || row["Proposal Name"] || row["Project Name"] || row["Name"]);
-            const proposalName = clean(row["Proposal Name"] || "");
+            const proposalName = clean(row["Proposal Name"] || row["Proposal"] || "");
+            const title = clean(
+              worksheetByProposal[proposalName] ||
+              row["Worksheet"] ||
+              row["Worksheet Name"] ||
+              row["Proposal Name"] ||
+              row["Project Name"] ||
+              row["Name"]
+            );
+            const proposalNameVal = clean(row["Proposal Name"] || "");
             const dept = clean(row["Department"] || row["Submitting Department"] || "");
             const phase = clean(row["Phase"] || row["Project Phase"] || "");
             const funding = clean(row["Fund"] || row["Funding Source"] || row["Source of Funding"] || "TBD");
