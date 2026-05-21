@@ -2,8 +2,10 @@ const app = document.getElementById("app");
 
 const defaultVisibleCount = 9;
 const loadMoreIncrement = 9;
+const urlParams = new URLSearchParams(window.location.search);
+const isFullView = urlParams.get("view") === "all";
 
-let visibleLimit = defaultVisibleCount;
+let visibleLimit = isFullView ? 9999 : defaultVisibleCount;
 
 const filters = {
   category: "all",
@@ -748,7 +750,7 @@ function renderProjects(){
   if(loadMore){
     loadMore.addEventListener("click", () => {
       window.open(
-        "https://budget-pixel.github.io/walton-cip-project-search/?v=4",
+        "https://budget-pixel.github.io/walton-cip-project-search/?view=all&v=6",
         "_blank",
         "noopener,noreferrer"
       );
