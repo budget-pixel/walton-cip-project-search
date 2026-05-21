@@ -56,10 +56,41 @@
       return Number.isFinite(num) ? num : 0;
     }
 
-    function getFiscalYearColumns(row){
-      return Object.keys(row).filter(function(key){
+    function getBudgetAmountColumns(row){
+      const keys = Object.keys(row);
+
+      const fyColumns = keys.filter(function(key){
         return /^FY\s*20\d{2}$/i.test(key) || /^FY20\d{2}$/i.test(key);
       });
+
+      if(fyColumns.length){
+        return fyColumns;
+      }
+
+      const periodExpenseColumns = keys.filter(function(key){
+        return /^Period\s+\d+\s+Expenses$/i.test(key);
+      });
+
+      if(periodExpenseColumns.length){
+        return periodExpenseColumns;
+      }
+
+      return keys.filter(function(key){
+        return /^Period\s+\d+\s+Proposed$/i.test(key);
+      });
+    }
+
+    function periodColumnToFiscalYear(key){
+      const match = String(key).match(/^Period\s+(\d+)/i);
+
+      if(!match){
+        return key.replace(/\s+/g, "").toUpperCase();
+      }
+
+      const periodNumber = Number(match[1]);
+      const fiscalYear = 2026 + periodNumber;
+
+      return "FY" + fiscalYear;
     }
 
     function getProjectAmount(row){
@@ -72,18 +103,18 @@
         return explicitTotal;
       }
 
-      return getFiscalYearColumns(row).reduce(function(sum, key){
+      return getBudgetAmountColumns(row).reduce(function(sum, key){
         return sum + parseAmount(row[key]);
       }, 0);
     }
 
     function getTargetYears(row){
-      const fundedYears = getFiscalYearColumns(row)
+      const fundedYears = getBudgetAmountColumns(row)
         .filter(function(key){
           return parseAmount(row[key]) !== 0;
         })
         .map(function(key){
-          return key.replace(/\s+/g, "").toUpperCase();
+          return periodColumnToFiscalYear(key);
         });
 
       if(fundedYears.length === 1){
