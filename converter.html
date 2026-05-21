@@ -86,11 +86,11 @@
 
         const projects = rows
           .filter(row => {
-            const name = clean(row["Worksheet Name"] || row["Proposal Name"] || row["Project Name"] || row["Name"]);
+            const name = clean(row["Worksheet"] || row["Worksheet Name"] || row["Proposal Name"] || row["Project Name"] || row["Name"]);
             return name;
           })
           .map(row => {
-            const title = clean(row["Worksheet Name"] || row["Proposal Name"] || row["Project Name"] || row["Name"]);
+            const title = clean(row["Worksheet"] || row["Worksheet Name"] || row["Proposal Name"] || row["Project Name"] || row["Name"]);
             const proposalName = clean(row["Proposal Name"] || "");
             const dept = clean(row["Department"] || row["Submitting Department"] || "");
             const phase = clean(row["Phase"] || row["Project Phase"] || "");
