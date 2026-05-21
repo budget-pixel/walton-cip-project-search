@@ -702,7 +702,7 @@ function renderProjects(){
           No projects match your search criteria.
         </div>
 
-        ${filtered.length > visibleLimit ? `<button class="wc-project-load-more" type="button" style="display:block;">Show More Projects</button>` : ""}
+        ${filtered.length > visibleLimit ? `<button class="wc-project-load-more" type="button" style="display:block;">Open Full Project Search</button>` : ""}
 
       </div>
     </section>
@@ -747,8 +747,11 @@ function renderProjects(){
 
   if(loadMore){
     loadMore.addEventListener("click", () => {
-      visibleLimit += loadMoreIncrement;
-      renderProjects();
+      window.open(
+        "https://budget-pixel.github.io/walton-cip-project-search/?v=4",
+        "_blank",
+        "noopener,noreferrer"
+      );
     });
   }
 
