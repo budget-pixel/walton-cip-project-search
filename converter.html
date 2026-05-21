@@ -86,11 +86,12 @@
 
         const projects = rows
           .filter(row => {
-            const name = clean(row["Proposal Name"] || row["Project Name"] || row["Name"]);
+            const name = clean(row["Worksheet Name"] || row["Proposal Name"] || row["Project Name"] || row["Name"]);
             return name;
           })
           .map(row => {
-            const title = clean(row["Proposal Name"] || row["Project Name"] || row["Name"]);
+            const title = clean(row["Worksheet Name"] || row["Proposal Name"] || row["Project Name"] || row["Name"]);
+            const proposalName = clean(row["Proposal Name"] || "");
             const dept = clean(row["Department"] || row["Submitting Department"] || "");
             const phase = clean(row["Phase"] || row["Project Phase"] || "");
             const funding = clean(row["Funding Source"] || row["Fund"] || row["Source of Funding"] || "TBD");
@@ -113,6 +114,7 @@
 
             return {
               title,
+              proposal_name: proposalName,
               dept: dept || "Walton County",
               category,
               category_label: labelFromCategory(category),
