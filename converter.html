@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CIP Project Converter</title>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+</head>
+<body style="font-family:Arial;padding:30px;max-width:1000px;margin:auto;">
+
+  <h1>Walton CIP Project Converter</h1>
+  <p>Upload the OpenGov Excel export. This will generate updated <strong>projects.js</strong> code.</p>
+
+  <input type="file" id="fileInput" accept=".xlsx,.xls" />
+
+  <br><br>
+
+  <button onclick="copyOutput()">Copy projects.js Code</button>
+
+  <br><br>
+
+  <textarea id="output" style="width:100%;height:600px;font-family:monospace;"></textarea>
+
+  <script>
+    const fileInput = document.getElementById("fileInput");
+    const output = document.getElementById("output");
+
+    fileInput.addEventListener("change", handleFile);
+
+    function clean(value){
+      return String(value ?? "").trim();
+    }
+
+    function money(value){
+      const num = Number(value || 0);
+      if (!num) return "$0";
+      if (Math.abs(num) >= 1000000) return "$" + (num / 1000000).toFixed(1).replace(".0","") + "M";
+      if (Math.abs(num) >= 1000) return "$" + Math.round(num / 1000) + "K";
+      return "$" + Math.round(num).toLocaleString();
+    }
+
+    function categoryFromText(text){
+      const t = text.toLowerCase();
+
+      if (t.includes("fire") || t.includes("sheriff") || t.includes("station") || t.includes("radio")) return "public safety";
+      if (t.includes("park") || t.includes("beach") || t.includes("access")) return "parks";
+      if (t.includes("drainage") || t.includes("stormwater")) return "drainage";
+      if (t.includes("library") || t.includes("facility") || t.includes("building") || t.includes("center")) return "facilities";
+      if (t.includes("tourism") || t.includes("visitor") || t.includes("dune")) return "tourism";
+
+      return "transportation";
+    }
+
+    function labelFromCategory(category){
+      return category
+        .split(" ")
+        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ");
+    }
+
+    function statusFromPhase(phase){
+      const p = phase.toLowerCase();
+
+      if (p.includes("construction")) return ["Construction", "wc-status-construction"];
+      if (p.includes("design")) return ["Design Phase", "wc-status-design"];
+      if (p.includes("complete")) return ["Complete", "wc-status-complete"];
+
+      return ["Planning Phase", "wc-status-planning"];
+    }
+
+    function handleFile(e){
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+
+      reader.onload = function(evt){
+        const data = new Uint8Array(evt.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+
+        const sheetName =
+          workbook.SheetNames.find(name => name.toLowerCase().includes("proposal summary"))
+          || workbook.SheetNames[0];
+
+        const sheet = workbook.Sheets[sheetName];
+        const rows = XLSX.utils.sheet_to_json(sheet, { defval: "" });
+
+        const projects = rows
+          .filter(row => {
+            const name = clean(row["Proposal Name"] || row["Project Name"] || row["Name"]);
+            return name;
+          })
+          .map(row => {
+            const title = clean(row["Proposal Name"] || row["Project Name"] || row["Name"]);
+            const dept = clean(row["Department"] || row["Submitting Department"] || "");
+            const phase = clean(row["Phase"] || row["Project Phase"] || "");
+            const funding = clean(row["Funding Source"] || row["Fund"] || row["Source of Funding"] || "TBD");
+            const district = clean(row["District"] || "Countywide");
+            const description = clean(row["Description"] || row["Project Description"] || row["Justification"] || `${title} is included in Walton County’s five-year Capital Improvement Plan.`);
+
+            const amount =
+              row["Total"] ||
+              row["Total Amount"] ||
+              row["Project Total"] ||
+              row["FY2027"] ||
+              row["FY 2027"] ||
+              0;
+
+            const target =
+              clean(row["Budget Period"] || row["Target Year"] || row["Fiscal Year"] || "FY2027");
+
+            const category = categoryFromText(`${title} ${dept} ${description}`);
+            const status = statusFromPhase(phase);
+
+            return {
+              title,
+              dept: dept || "Walton County",
+              category,
+              category_label: labelFromCategory(category),
+              description,
+              budget: money(amount),
+              funding: funding || "TBD",
+              district,
+              target,
+              status_text: status[0],
+              status_class: status[1]
+            };
+          });
+
+        output.value =
+          "const wcProjects = " +
+          JSON.stringify(projects, null, 2)
+            .replace(/"([^"]+)":/g, "$1:") +
+          ";\n";
+      };
+
+      reader.readAsArrayBuffer(file);
+    }
+
+    function copyOutput(){
+      output.select();
+      document.execCommand("copy");
+      alert("projects.js code copied.");
+    }
+  </script>
+
+</body>
+</html>
