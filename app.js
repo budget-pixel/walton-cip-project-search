@@ -1,6 +1,9 @@
 const app = document.getElementById("app");
 
-let visibleLimit = 9;
+const defaultVisibleCount = 9;
+const loadMoreIncrement = 9;
+
+let visibleLimit = defaultVisibleCount;
 
 const filters = {
   category: "all",
@@ -14,13 +17,15 @@ function escapeHtml(value){
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
+    .replace(/\"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
 
 function getFilteredProjects(){
-
   return wcProjects.filter(project => {
+    const category = String(project.category || "").toLowerCase();
+    const target = String(project.target || "").toLowerCase();
+    const funding = String(project.funding || "").toLowerCase();
 
     const content = [
       project.title,
@@ -28,6 +33,7 @@ function getFilteredProjects(){
       project.dept,
       project.category,
       project.category_label,
+      project.budget,
       project.funding,
       project.target,
       project.district,
@@ -40,15 +46,15 @@ function getFilteredProjects(){
 
     const matchesCategory =
       filters.category === "all" ||
-      project.category.toLowerCase().includes(filters.category);
+      category.includes(filters.category);
 
     const matchesYear =
       filters.year === "all" ||
-      project.target.toLowerCase().includes(filters.year);
+      target.includes(filters.year);
 
     const matchesFund =
       filters.fund === "all" ||
-      project.funding.toLowerCase().includes(filters.fund);
+      funding.includes(filters.fund);
 
     return (
       matchesSearch &&
@@ -56,16 +62,85 @@ function getFilteredProjects(){
       matchesYear &&
       matchesFund
     );
-
   });
+}
 
+function renderProjectCard(project){
+  const description = String(project.description || "");
+  const statusClass = project.status_class || getStatusClass(project.status_text);
+
+  return `
+    <article class="wc-project-card" data-category="${escapeHtml(project.category)}" data-target="${escapeHtml(String(project.target || "").toLowerCase())}">
+
+      <div class="wc-project-card-top">
+        <h3>${escapeHtml(project.title)}</h3>
+        <span class="wc-project-category">${escapeHtml(project.category_label)}</span>
+      </div>
+
+      <div class="wc-project-description">
+        ${escapeHtml(description)}
+      </div>
+
+      ${description.length > 180 ? `<button class="wc-project-read-more" type="button">Read More</button>` : ""}
+
+      <div class="wc-project-metrics">
+
+        <div class="wc-project-metric">
+          <span>Project Budget</span>
+          <strong>${escapeHtml(project.budget)}</strong>
+        </div>
+
+        <div class="wc-project-metric">
+          <span>Funding Source</span>
+          <strong>${escapeHtml(project.funding)}</strong>
+        </div>
+
+        <div class="wc-project-metric">
+          <span>District</span>
+          <strong>${escapeHtml(project.district)}</strong>
+        </div>
+
+        <div class="wc-project-metric">
+          <span>Target Year</span>
+          <strong>${escapeHtml(project.target)}</strong>
+        </div>
+
+      </div>
+
+      <div class="wc-project-status ${escapeHtml(statusClass)}">
+        ${escapeHtml(project.status_text)}
+      </div>
+
+    </article>
+  `;
+}
+
+function getStatusClass(statusText){
+  const status = String(statusText || "").toLowerCase();
+
+  if(status.includes("construction")){
+    return "wc-status-construction";
+  }
+
+  if(status.includes("design")){
+    return "wc-status-design";
+  }
+
+  if(status.includes("complete")){
+    return "wc-status-complete";
+  }
+
+  return "wc-status-planning";
 }
 
 function renderProjects(){
-
   const filtered = getFilteredProjects();
-
   const visibleProjects = filtered.slice(0, visibleLimit);
+  const rows = [];
+
+  for(let i = 0; i < visibleProjects.length; i += 3){
+    rows.push(visibleProjects.slice(i, i + 3));
+  }
 
   app.innerHTML = `
     <style>
@@ -76,395 +151,618 @@ function renderProjects(){
 
       body{
         margin:0;
-        background:#f5f7fb;
+        background:#ffffff;
         font-family:Arial, Helvetica, sans-serif;
       }
 
-      .wc-wrapper{
+      .wc-project-index-section{
+        position:relative;
+        width:100vw;
+        max-width:100vw;
+        left:50%;
+        margin-left:-50vw;
+        margin-right:-50vw;
+        padding:54px 34px;
+        background:#ffffff;
+        font-family:Arial, Helvetica, sans-serif;
+        box-sizing:border-box;
+      }
+
+      .wc-project-index-inner{
         width:100%;
         max-width:1600px;
         margin:0 auto;
-        padding:50px 24px;
       }
 
-      .wc-header{
+      .wc-project-index-header{
         text-align:center;
-        margin-bottom:36px;
+        margin-bottom:34px;
       }
 
-      .wc-header span{
+      .wc-project-index-header span{
         display:block;
+        margin-bottom:10px;
         color:#006231;
         font-size:13px;
         font-weight:700;
         letter-spacing:.14em;
         text-transform:uppercase;
-        margin-bottom:12px;
       }
 
-      .wc-header h1{
+      .wc-project-index-header h2{
         margin:0;
-        font-size:44px;
-        line-height:1.1;
         color:#172033;
+        font-size:42px;
+        line-height:1.08;
+        font-weight:700;
       }
 
-      .wc-header p{
-        max-width:950px;
-        margin:20px auto 0 auto;
+      .wc-project-index-header h2::after{
+        content:"";
+        display:block;
+        width:82px;
+        height:4px;
+        margin:14px auto 0 auto;
+        border-radius:999px;
+        background:linear-gradient(90deg,#006231 0%,#0b7d45 100%);
+      }
+
+      .wc-project-index-header p{
+        max-width:980px;
+        margin:18px auto 0 auto;
         color:#475467;
-        line-height:1.7;
         font-size:16px;
+        line-height:1.7;
       }
 
-      .wc-toolbar{
+      .wc-project-toolbar{
+        display:flex;
+        flex-wrap:wrap;
+        gap:16px;
+        align-items:center;
+        justify-content:space-between;
+        margin-bottom:24px;
+        padding:22px;
         background:#ffffff;
         border-radius:24px;
-        padding:24px;
-        margin-bottom:28px;
-        border:1px solid rgba(0,98,49,.12);
+        border:1px solid rgba(209,190,120,0.34);
         box-shadow:
-          0 12px 28px rgba(0,98,49,.06),
-          0 4px 12px rgba(0,0,0,.04);
+          0 12px 28px rgba(0,98,49,0.08),
+          0 4px 10px rgba(36,52,77,0.05);
       }
 
-      .wc-search{
-        width:100%;
-        height:58px;
+      .wc-project-search-wrap{
+        position:relative;
+        flex:1 1 420px;
+        min-width:280px;
+      }
+
+      .wc-project-search{
+        width:100% !important;
+        height:58px !important;
+        padding:0 18px 0 72px !important;
+        text-indent:0 !important;
         border-radius:16px;
-        border:1px solid rgba(0,98,49,.14);
-        padding:0 18px;
+        border:1px solid rgba(0,98,49,0.16);
+        background:#f8faf8;
         font-size:15px;
+        color:#172033;
         outline:none;
-        margin-bottom:18px;
+        box-sizing:border-box;
+        transition:
+          border-color .22s ease,
+          box-shadow .22s ease,
+          background .22s ease;
       }
 
-      .wc-search:focus{
+      .wc-project-search::placeholder{
+        color:#98a2b3;
+        opacity:1;
+      }
+
+      .wc-project-search:focus{
         border-color:#006231;
+        background:#ffffff;
+        box-shadow:0 0 0 4px rgba(0,98,49,0.08);
       }
 
-      .wc-filter-group{
+      .wc-project-search-icon{
+        position:absolute !important;
+        left:24px !important;
+        top:50% !important;
+        transform:translateY(-50%) !important;
+        width:18px !important;
+        height:18px !important;
+        opacity:.55 !important;
+        pointer-events:none !important;
+        z-index:2 !important;
+      }
+
+      .wc-project-filter-group{
+        display:flex;
+        flex-wrap:wrap;
+        gap:12px;
+        width:100%;
+      }
+
+      .wc-project-filter-set{
         display:flex;
         flex-wrap:wrap;
         gap:10px;
+        align-items:center;
+        width:100%;
       }
 
-      .wc-filter{
-        border:none;
-        padding:12px 18px;
-        border-radius:999px;
-        background:#eef2f6;
-        cursor:pointer;
-        font-size:14px;
-        font-weight:700;
-        transition:.2s ease;
-      }
-
-      .wc-filter.active{
-        background:#006231;
-        color:#ffffff;
-      }
-
-      .wc-results{
-        margin-bottom:22px;
-        font-size:14px;
+      .wc-project-filter-label{
         color:#475467;
+        font-size:12px;
+        font-weight:800;
+        letter-spacing:.12em;
+        text-transform:uppercase;
+        margin-right:2px;
+      }
+
+      .wc-project-filter{
+        height:46px;
+        padding:0 18px;
+        border-radius:999px;
+        border:1px solid rgba(0,98,49,0.14);
+        background:#ffffff;
+        color:#172033;
+        font-size:14px;
+        font-weight:600;
+        cursor:pointer;
+        transition:
+          background .22s ease,
+          color .22s ease,
+          border-color .22s ease,
+          transform .22s ease;
+      }
+
+      .wc-project-filter:hover{
+        transform:translateY(-1px);
+      }
+
+      .wc-project-filter.active{
+        background:linear-gradient(135deg,#006231 0%,#0b7d45 100%);
+        color:#ffffff;
+        border-color:#006231;
+      }
+
+      .wc-project-results-row{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:18px;
+        margin:0 0 12px 0;
+        color:#475467;
+        font-size:14px;
         font-weight:700;
       }
 
-      .wc-grid{
-        display:grid;
-        grid-template-columns:repeat(3,minmax(0,1fr));
-        gap:24px;
+      .wc-project-grid{
+        display:flex !important;
+        flex-direction:column !important;
+        gap:24px !important;
+        width:100% !important;
+        max-width:100% !important;
+        margin:0 !important;
+        padding:0 !important;
+        box-sizing:border-box !important;
       }
 
-      .wc-card{
-        background:#ffffff;
-        border-radius:24px;
-        padding:28px;
-        border:1px solid rgba(0,98,49,.12);
-        box-shadow:
-          0 12px 24px rgba(0,98,49,.05),
-          0 4px 10px rgba(0,0,0,.04);
+      .wc-project-row{
+        display:flex !important;
+        flex-direction:row !important;
+        align-items:stretch !important;
+        justify-content:flex-start !important;
+        gap:24px !important;
+        width:100% !important;
+        max-width:100% !important;
+        margin:0 !important;
+        padding:0 !important;
+        box-sizing:border-box !important;
       }
 
-      .wc-card-top{
+      .wc-project-card{
+        flex:1 1 0 !important;
+        width:calc((100% - 48px) / 3) !important;
+        max-width:calc((100% - 48px) / 3) !important;
+        min-width:0 !important;
+        box-sizing:border-box !important;
+        position:relative;
         display:flex;
+        flex-direction:column;
+        gap:16px;
+        padding:28px;
+        background:#ffffff;
+        border-radius:26px;
+        border:1px solid rgba(209,190,120,0.34);
+        box-shadow:
+          0 14px 34px rgba(0,98,49,0.08),
+          0 4px 12px rgba(36,52,77,0.06);
+        transition:
+          transform .24s ease,
+          box-shadow .24s ease,
+          border-color .24s ease;
+      }
+
+      .wc-project-card:hover{
+        transform:translateY(-4px);
+        border-color:rgba(0,98,49,0.28);
+        box-shadow:
+          0 22px 44px rgba(0,98,49,0.12),
+          0 8px 18px rgba(36,52,77,0.08);
+      }
+
+      .wc-project-card-top{
+        display:flex;
+        align-items:flex-start;
         justify-content:space-between;
         gap:12px;
-        margin-bottom:16px;
       }
 
-      .wc-card h2{
+      .wc-project-card h3{
         margin:0;
+        color:#172033;
         font-size:24px;
         line-height:1.2;
-        color:#172033;
+        font-weight:700;
       }
 
-      .wc-category{
-        background:rgba(0,98,49,.08);
-        color:#006231;
+      .wc-project-category{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
         padding:8px 14px;
         border-radius:999px;
-        font-size:11px;
-        font-weight:800;
+        background:rgba(0,98,49,0.08);
+        color:#006231;
+        font-size:12px;
+        font-weight:700;
         letter-spacing:.08em;
         text-transform:uppercase;
         white-space:nowrap;
       }
 
-      .wc-description{
+      .wc-project-description{
         color:#475467;
-        line-height:1.7;
         font-size:15px;
-        margin-bottom:22px;
+        line-height:1.72;
+        position:relative;
       }
 
-      .wc-metrics{
+      .wc-project-card.has-overflow .wc-project-description{
+        max-height:104px;
+        overflow:hidden;
+      }
+
+      .wc-project-card.is-expanded .wc-project-description{
+        max-height:none;
+        overflow:visible;
+      }
+
+      .wc-project-card.has-overflow .wc-project-description::after{
+        content:"";
+        position:absolute;
+        left:0;
+        right:0;
+        bottom:0;
+        height:34px;
+        background:linear-gradient(
+          180deg,
+          rgba(255,255,255,0) 0%,
+          #ffffff 85%
+        );
+        pointer-events:none;
+      }
+
+      .wc-project-card.is-expanded .wc-project-description::after{
+        display:none;
+      }
+
+      .wc-project-read-more{
+        align-self:flex-start;
+        margin-top:-6px;
+        padding:0;
+        border:0;
+        background:transparent;
+        color:#006231;
+        font-family:Arial, Helvetica, sans-serif;
+        font-size:13px;
+        font-weight:800;
+        letter-spacing:.06em;
+        text-transform:uppercase;
+        cursor:pointer;
+      }
+
+      .wc-project-read-more:hover{
+        text-decoration:underline;
+      }
+
+      .wc-project-metrics{
         display:grid;
-        grid-template-columns:1fr 1fr;
+        grid-template-columns:repeat(2,minmax(0,1fr));
         gap:14px;
+        margin-top:auto;
+        align-items:stretch;
       }
 
-      .wc-metric{
-        background:#f8faf8;
+      .wc-project-metric{
+        min-height:92px;
+        padding:14px 16px;
         border-radius:16px;
-        padding:14px;
+        background:#f8faf8;
+        border:1px solid rgba(0,98,49,0.08);
+        display:flex;
+        flex-direction:column;
+        justify-content:flex-start;
+        box-sizing:border-box;
       }
 
-      .wc-metric span{
+      .wc-project-metric span{
         display:block;
+        margin-bottom:6px;
+        color:#667085;
         font-size:11px;
         font-weight:700;
-        letter-spacing:.08em;
+        letter-spacing:.10em;
         text-transform:uppercase;
-        color:#667085;
-        margin-bottom:6px;
       }
 
-      .wc-metric strong{
+      .wc-project-metric strong{
+        display:block;
         color:#172033;
-        font-size:16px;
+        font-size:18px;
+        line-height:1.25;
+        font-weight:700;
+        word-break:break-word;
+        overflow-wrap:anywhere;
       }
 
-      .wc-status{
-        margin-top:20px;
+      .wc-project-metric:first-child strong{
+        white-space:nowrap;
+      }
+
+      .wc-project-status{
         display:inline-flex;
         align-items:center;
         gap:8px;
+        width:max-content;
         padding:10px 16px;
         border-radius:999px;
-        background:#eef8f1;
-        color:#006231;
-        font-size:12px;
-        font-weight:800;
-        letter-spacing:.08em;
+        font-size:13px;
+        font-weight:700;
+        letter-spacing:.06em;
         text-transform:uppercase;
       }
 
-      .wc-load-more{
-        display:block;
-        margin:40px auto 0 auto;
-        border:none;
-        background:#006231;
-        color:#ffffff;
+      .wc-project-status::before{
+        content:"";
+        width:10px;
+        height:10px;
         border-radius:999px;
-        padding:16px 28px;
-        cursor:pointer;
+        background:currentColor;
+      }
+
+      .wc-status-planning{ background:rgba(209,190,120,0.18); color:#8b6d12; }
+      .wc-status-design{ background:rgba(9,127,187,0.12); color:#0b5f8a; }
+      .wc-status-construction{ background:rgba(0,98,49,0.12); color:#006231; }
+      .wc-status-complete{ background:rgba(52,64,84,0.10); color:#344054; }
+
+      .wc-project-empty{
+        display:none;
+        padding:42px 24px;
+        text-align:center;
+        color:#667085;
+        font-size:16px;
+      }
+
+      .wc-project-load-more{
+        display:none;
+        margin:30px auto 0 auto;
+        padding:15px 26px;
+        border:0;
+        border-radius:999px;
+        background:linear-gradient(135deg,#006231 0%,#0b7d45 100%);
+        color:#ffffff;
+        font-family:Arial, Helvetica, sans-serif;
+        font-size:14px;
         font-weight:800;
         letter-spacing:.08em;
         text-transform:uppercase;
+        cursor:pointer;
+        box-shadow:0 10px 24px rgba(0,98,49,0.16);
+        transition:transform .22s ease, box-shadow .22s ease;
+      }
+
+      .wc-project-load-more:hover{
+        transform:translateY(-2px);
+        box-shadow:0 14px 28px rgba(0,98,49,0.20);
       }
 
       @media(max-width:1100px){
-
-        .wc-grid{
-          grid-template-columns:repeat(2,minmax(0,1fr));
+        .wc-project-row{
+          flex-wrap:wrap !important;
         }
 
+        .wc-project-card{
+          flex:0 1 calc((100% - 24px) / 2) !important;
+          width:calc((100% - 24px) / 2) !important;
+          max-width:calc((100% - 24px) / 2) !important;
+        }
       }
 
       @media(max-width:760px){
-
-        .wc-grid{
-          grid-template-columns:1fr;
+        .wc-project-index-section{ padding:38px 18px; }
+        .wc-project-index-header h2{ font-size:34px; }
+        .wc-project-row{
+          flex-direction:column !important;
+          gap:24px !important;
         }
-
-        .wc-card-top{
+        .wc-project-card{
+          flex:1 1 auto !important;
+          width:100% !important;
+          max-width:100% !important;
+          min-width:0 !important;
+          padding:24px;
+        }
+        .wc-project-card-top{
           flex-direction:column;
         }
-
-        .wc-metrics{
+        .wc-project-metrics{
           grid-template-columns:1fr;
         }
-
-        .wc-header h1{
-          font-size:34px;
+        .wc-project-toolbar{ padding:18px; }
+        .wc-project-results-row{
+          flex-direction:column;
+          align-items:flex-start;
         }
-
+        .wc-project-search{ padding-left:68px !important; }
+        .wc-project-search-icon{ left:22px !important; }
       }
 
     </style>
 
-    <div class="wc-wrapper">
+    <section class="wc-project-index-section">
+      <div class="wc-project-index-inner">
 
-      <div class="wc-header">
-        <span>Capital Project Search</span>
+        <div class="wc-project-index-header">
+          <span>Capital Project Search</span>
+          <h2>Searchable Project Index</h2>
+          <p>
+            Browse, search, and filter Walton County capital improvement projects by department, category, funding source, and implementation phase. This project index is populated from the CIP export and is designed to help residents quickly locate projects relevant to their community.
+          </p>
+        </div>
 
-        <h1>Searchable Project Index</h1>
+        <div class="wc-project-toolbar">
 
-        <p>
-          Browse, search, and filter Walton County capital improvement projects by category, funding source, and implementation phase.
-        </p>
-      </div>
+          <div class="wc-project-search-wrap">
+            <svg class="wc-project-search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21 21L16.65 16.65M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
 
-      <div class="wc-toolbar">
+            <input
+              type="text"
+              class="wc-project-search"
+              placeholder="Search projects, departments, locations, or funding sources..."
+              value="${escapeHtml(filters.search)}"
+            >
+          </div>
 
-        <input
-          type="text"
-          class="wc-search"
-          placeholder="Search projects..."
-          value="${escapeHtml(filters.search)}"
-        >
+          <div class="wc-project-filter-group">
 
-        <div class="wc-filter-group">
+            <div class="wc-project-filter-set" data-filter-type="category">
+              <span class="wc-project-filter-label">Category</span>
+              <button class="wc-project-filter ${filters.category === "all" ? "active" : ""}" data-filter-type="category" data-filter="all">All</button>
+              <button class="wc-project-filter ${filters.category === "transportation" ? "active" : ""}" data-filter-type="category" data-filter="transportation">Transportation</button>
+              <button class="wc-project-filter ${filters.category === "public safety" ? "active" : ""}" data-filter-type="category" data-filter="public safety">Public Safety</button>
+              <button class="wc-project-filter ${filters.category === "drainage" ? "active" : ""}" data-filter-type="category" data-filter="drainage">Drainage</button>
+              <button class="wc-project-filter ${filters.category === "parks" ? "active" : ""}" data-filter-type="category" data-filter="parks">Parks</button>
+              <button class="wc-project-filter ${filters.category === "facilities" ? "active" : ""}" data-filter-type="category" data-filter="facilities">Facilities</button>
+              <button class="wc-project-filter ${filters.category === "tourism" ? "active" : ""}" data-filter-type="category" data-filter="tourism">Tourism</button>
+            </div>
 
-          <button class="wc-filter ${filters.category === "all" ? "active" : ""}" data-category="all">
-            All
-          </button>
+            <div class="wc-project-filter-set" data-filter-type="year">
+              <span class="wc-project-filter-label">Year</span>
+              <button class="wc-project-filter ${filters.year === "all" ? "active" : ""}" data-filter-type="year" data-filter="all">All</button>
+              <button class="wc-project-filter ${filters.year === "fy2027" ? "active" : ""}" data-filter-type="year" data-filter="fy2027">FY2027</button>
+              <button class="wc-project-filter ${filters.year === "fy2028" ? "active" : ""}" data-filter-type="year" data-filter="fy2028">FY2028</button>
+              <button class="wc-project-filter ${filters.year === "fy2029" ? "active" : ""}" data-filter-type="year" data-filter="fy2029">FY2029</button>
+              <button class="wc-project-filter ${filters.year === "fy2030" ? "active" : ""}" data-filter-type="year" data-filter="fy2030">FY2030</button>
+              <button class="wc-project-filter ${filters.year === "fy2031" ? "active" : ""}" data-filter-type="year" data-filter="fy2031">FY2031</button>
+            </div>
 
-          <button class="wc-filter ${filters.category === "transportation" ? "active" : ""}" data-category="transportation">
-            Transportation
-          </button>
+            <div class="wc-project-filter-set" data-filter-type="fund">
+              <span class="wc-project-filter-label">Fund</span>
+              <button class="wc-project-filter ${filters.fund === "all" ? "active" : ""}" data-filter-type="fund" data-filter="all">All</button>
+              <button class="wc-project-filter ${filters.fund === "capital projects fund" ? "active" : ""}" data-filter-type="fund" data-filter="capital projects fund">Capital Projects</button>
+              <button class="wc-project-filter ${filters.fund === "transportation fund" ? "active" : ""}" data-filter-type="fund" data-filter="transportation fund">Transportation</button>
+              <button class="wc-project-filter ${filters.fund === "tourist development fund" ? "active" : ""}" data-filter-type="fund" data-filter="tourist development fund">Tourist Development</button>
+              <button class="wc-project-filter ${filters.fund === "grant" ? "active" : ""}" data-filter-type="fund" data-filter="grant">Grant Funded</button>
+              <button class="wc-project-filter ${filters.fund === "public works capital" ? "active" : ""}" data-filter-type="fund" data-filter="public works capital">Public Works Capital</button>
+              <button class="wc-project-filter ${filters.fund === "tbd" ? "active" : ""}" data-filter-type="fund" data-filter="tbd">TBD</button>
+            </div>
 
-          <button class="wc-filter ${filters.category === "public safety" ? "active" : ""}" data-category="public safety">
-            Public Safety
-          </button>
-
-          <button class="wc-filter ${filters.category === "drainage" ? "active" : ""}" data-category="drainage">
-            Drainage
-          </button>
-
-          <button class="wc-filter ${filters.category === "parks" ? "active" : ""}" data-category="parks">
-            Parks
-          </button>
-
-          <button class="wc-filter ${filters.category === "facilities" ? "active" : ""}" data-category="facilities">
-            Facilities
-          </button>
+          </div>
 
         </div>
 
-      </div>
+        <div class="wc-project-results-row">
+          <div class="wc-project-results-count">Showing ${visibleProjects.length} of ${filtered.length} projects</div>
+          <div>Use search and filters to narrow the list.</div>
+        </div>
 
-      <div class="wc-results">
-        Showing ${visibleProjects.length} of ${filtered.length} projects
-      </div>
+        <div class="wc-project-grid">
+          ${rows.map(row => `<div class="wc-project-row">${row.map(renderProjectCard).join("")}</div>`).join("")}
+        </div>
 
-      <div class="wc-grid">
+        <div class="wc-project-empty" style="display:${filtered.length ? "none" : "block"};">
+          No projects match your search criteria.
+        </div>
 
-        ${visibleProjects.map(project => `
-
-          <article class="wc-card">
-
-            <div class="wc-card-top">
-
-              <h2>${escapeHtml(project.title)}</h2>
-
-              <div class="wc-category">
-                ${escapeHtml(project.category_label)}
-              </div>
-
-            </div>
-
-            <div class="wc-description">
-              ${escapeHtml(project.description)}
-            </div>
-
-            <div class="wc-metrics">
-
-              <div class="wc-metric">
-                <span>Budget</span>
-                <strong>${escapeHtml(project.budget)}</strong>
-              </div>
-
-              <div class="wc-metric">
-                <span>Funding</span>
-                <strong>${escapeHtml(project.funding)}</strong>
-              </div>
-
-              <div class="wc-metric">
-                <span>District</span>
-                <strong>${escapeHtml(project.district)}</strong>
-              </div>
-
-              <div class="wc-metric">
-                <span>Target</span>
-                <strong>${escapeHtml(project.target)}</strong>
-              </div>
-
-            </div>
-
-            <div class="wc-status">
-              ${escapeHtml(project.status_text)}
-            </div>
-
-          </article>
-
-        `).join("")}
+        ${filtered.length > visibleLimit ? `<button class="wc-project-load-more" type="button" style="display:block;">Show More Projects</button>` : ""}
 
       </div>
-
-      ${
-        filtered.length > visibleLimit
-        ? `<button class="wc-load-more">Show More Projects</button>`
-        : ""
-      }
-
-    </div>
+    </section>
   `;
 
-  document.querySelector(".wc-search")
+  document.querySelector(".wc-project-search")
     .addEventListener("input", e => {
-
-      filters.search = e.target.value.toLowerCase();
-
-      visibleLimit = 9;
-
+      filters.search = e.target.value.toLowerCase().trim();
+      visibleLimit = defaultVisibleCount;
       renderProjects();
-
     });
 
-  document.querySelectorAll("[data-category]")
+  document.querySelectorAll(".wc-project-filter")
     .forEach(button => {
-
       button.addEventListener("click", () => {
+        const filterType = button.dataset.filterType;
+        const filterValue = button.dataset.filter;
 
-        filters.category = button.dataset.category;
-
-        visibleLimit = 9;
-
+        filters[filterType] = filterValue;
+        visibleLimit = defaultVisibleCount;
         renderProjects();
-
       });
-
     });
 
-  const loadMore = document.querySelector(".wc-load-more");
+  const loadMore = document.querySelector(".wc-project-load-more");
 
   if(loadMore){
-
     loadMore.addEventListener("click", () => {
-
-      visibleLimit += 9;
-
+      visibleLimit += loadMoreIncrement;
       renderProjects();
-
     });
-
   }
 
+  document.querySelectorAll(".wc-project-card").forEach(card => {
+    const description = card.querySelector(".wc-project-description");
+
+    if(!description){
+      return;
+    }
+
+    description.style.maxHeight = "none";
+
+    if(description.scrollHeight > 104){
+      card.classList.add("has-overflow");
+    }else{
+      card.classList.remove("has-overflow");
+    }
+  });
+
+  document.querySelectorAll(".wc-project-read-more").forEach(button => {
+    button.addEventListener("click", () => {
+      const card = button.closest(".wc-project-card");
+
+      if(!card){
+        return;
+      }
+
+      card.classList.toggle("is-expanded");
+      button.textContent = card.classList.contains("is-expanded") ? "Show Less" : "Read More";
+    });
+  });
 }
 
 renderProjects();
