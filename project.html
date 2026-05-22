@@ -130,6 +130,35 @@
     text-justify:inter-word;
   }
 
+  .wc-project-image-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:16px;
+  }
+
+  .wc-project-image-card{
+    margin:0;
+    overflow:hidden;
+    border-radius:18px;
+    background:#f8faf8;
+    border:1px solid rgba(0,98,49,0.08);
+  }
+
+  .wc-project-image-card img{
+    display:block;
+    width:100%;
+    height:260px;
+    object-fit:cover;
+    background:#eef3ef;
+  }
+
+  .wc-project-image-card figcaption{
+    padding:12px 14px;
+    color:#475467;
+    font-size:13px;
+    line-height:1.45;
+  }
+
   .wc-project-kicker{
     display:grid;
     grid-template-columns:repeat(4,minmax(0,1fr));
@@ -570,6 +599,14 @@
       grid-template-columns:1fr;
     }
 
+    .wc-project-image-grid{
+      grid-template-columns:1fr;
+    }
+
+    .wc-project-image-card img{
+      height:220px;
+    }
+
   }
 
 </style>
@@ -622,6 +659,57 @@ function renderListItem(label, value){
       <span>${escapeHtml(label)}</span>
       <strong>${displayValue(value)}</strong>
     </div>
+  `;
+}
+
+function normalizeProjectImages(project){
+  if(Array.isArray(project.images) && project.images.length){
+    return project.images
+      .map(image => {
+        if(typeof image === "string"){
+          return {
+            url:image,
+            caption:"Project image"
+          };
+        }
+
+        return {
+          url:image.url || image.src || "",
+          caption:image.caption || image.alt || "Project image"
+        };
+      })
+      .filter(image => image.url);
+  }
+
+  if(project.image_url){
+    return [{
+      url:project.image_url,
+      caption:project.image_caption || project.image_alt || "Project image"
+    }];
+  }
+
+  return [];
+}
+
+function renderProjectImages(project){
+  const images = normalizeProjectImages(project);
+
+  if(!images.length){
+    return "";
+  }
+
+  return `
+    <section class="wc-project-panel">
+      <h2>Project Images</h2>
+      <div class="wc-project-image-grid">
+        ${images.map(image => `
+          <figure class="wc-project-image-card">
+            <img src="${escapeHtml(image.url)}" alt="${escapeHtml(image.caption || project.title || "Project image")}">
+            ${image.caption ? `<figcaption>${escapeHtml(image.caption)}</figcaption>` : ""}
+          </figure>
+        `).join("")}
+      </div>
+    </section>
   `;
 }
 
@@ -788,6 +876,8 @@ if(!project){
             <h2>Project Overview</h2>
             <p class="wc-project-overview-text">${displayValue(description)}</p>
           </section>
+
+          ${renderProjectImages(project)}
 
           <section class="wc-project-panel">
             <h2>Budget & Funding Summary</h2>
