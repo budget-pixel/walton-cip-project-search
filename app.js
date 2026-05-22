@@ -597,32 +597,203 @@ function renderProjects(){
       }
 
       @media(max-width:760px){
-        .wc-project-index-section{ padding:38px 18px; }
-        .wc-project-index-header h2{ font-size:34px; }
+        .wc-project-index-section{
+          width:100% !important;
+          max-width:100% !important;
+          left:auto !important;
+          margin-left:0 !important;
+          margin-right:0 !important;
+          padding:32px 14px !important;
+          overflow-x:hidden !important;
+        }
+
+        .wc-project-index-inner{
+          width:100% !important;
+          max-width:100% !important;
+        }
+
+        .wc-project-index-header{
+          margin-bottom:24px;
+          padding:0 4px;
+        }
+
+        .wc-project-index-header span{
+          font-size:11px;
+          letter-spacing:.12em;
+        }
+
+        .wc-project-index-header h2{
+          font-size:30px;
+          line-height:1.12;
+        }
+
+        .wc-project-index-header p{
+          font-size:15px;
+          line-height:1.6;
+          margin-top:14px;
+        }
+
+        .wc-project-toolbar{
+          padding:16px !important;
+          border-radius:20px;
+          gap:14px;
+        }
+
+        .wc-project-search-wrap{
+          flex:1 1 100%;
+          min-width:0;
+          width:100%;
+        }
+
+        .wc-project-search{
+          height:54px !important;
+          padding-left:62px !important;
+          font-size:14px !important;
+          border-radius:15px;
+        }
+
+        .wc-project-search-icon{
+          left:22px !important;
+          width:17px !important;
+          height:17px !important;
+        }
+
+        .wc-project-filter-group{
+          gap:14px;
+        }
+
+        .wc-project-filter-set{
+          width:100%;
+          gap:8px;
+        }
+
+        .wc-project-filter-label{
+          width:100%;
+          margin-bottom:2px;
+          font-size:11px;
+        }
+
+        .wc-project-filter{
+          height:42px;
+          padding:0 14px;
+          font-size:13px;
+          flex:0 1 auto;
+        }
+
+        .wc-project-results-row{
+          flex-direction:column;
+          align-items:flex-start;
+          gap:6px;
+          margin-bottom:16px;
+          font-size:13px;
+        }
+
+        .wc-project-grid{
+          gap:18px !important;
+        }
+
         .wc-project-row{
           flex-direction:column !important;
-          gap:24px !important;
+          gap:18px !important;
+          width:100% !important;
         }
+
         .wc-project-card{
           flex:1 1 auto !important;
           width:100% !important;
           max-width:100% !important;
           min-width:0 !important;
-          padding:24px;
+          padding:22px !important;
+          border-radius:22px;
+          gap:14px;
         }
+
+        .wc-project-card:hover{
+          transform:none;
+        }
+
         .wc-project-card-top{
           flex-direction:column;
+          gap:10px;
         }
+
+        .wc-project-card h3{
+          font-size:21px;
+          line-height:1.22;
+        }
+
+        .wc-project-category{
+          align-self:flex-start;
+          white-space:normal;
+          text-align:left;
+          line-height:1.25;
+        }
+
+        .wc-project-description{
+          font-size:14px;
+          line-height:1.65;
+        }
+
+        .wc-project-card.has-overflow .wc-project-description{
+          max-height:116px;
+        }
+
         .wc-project-metrics{
           grid-template-columns:1fr;
+          gap:10px;
         }
-        .wc-project-toolbar{ padding:18px; }
-        .wc-project-results-row{
-          flex-direction:column;
-          align-items:flex-start;
+
+        .wc-project-metric{
+          min-height:auto;
+          padding:13px 14px;
         }
-        .wc-project-search{ padding-left:68px !important; }
-        .wc-project-search-icon{ left:22px !important; }
+
+        .wc-project-metric strong{
+          font-size:16px;
+          line-height:1.3;
+        }
+
+        .wc-project-status{
+          width:100%;
+          justify-content:center;
+          text-align:center;
+          padding:11px 14px;
+          font-size:12px;
+        }
+
+        .wc-project-load-more{
+          width:100%;
+          padding:15px 18px;
+          font-size:13px;
+        }
+      }
+
+      @media(max-width:420px){
+        .wc-project-index-section{
+          padding:28px 10px !important;
+        }
+
+        .wc-project-index-header h2{
+          font-size:27px;
+        }
+
+        .wc-project-toolbar{
+          padding:14px !important;
+        }
+
+        .wc-project-filter{
+          flex:1 1 calc(50% - 8px);
+          padding:0 10px;
+          font-size:12px;
+        }
+
+        .wc-project-card{
+          padding:20px !important;
+        }
+
+        .wc-project-card h3{
+          font-size:20px;
+        }
       }
 
     </style>
