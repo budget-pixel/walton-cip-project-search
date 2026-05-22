@@ -1,6 +1,7 @@
 const wcProjects = [
   {
     title: "Baldwin Library/Learning Center",
+    slug: "baldwin-library-learning-center",
     proposal_name: "BCC Baldwin Library/Learning Center",
     dept: "Walton County",
     category: "facilities",
@@ -15,6 +16,7 @@ const wcProjects = [
   },
   {
     title: "Building Construction & Maintenance Facility",
+    slug: "building-construction-and-maintenance-facility",
     proposal_name: "BCC Building Construction & Maintenance Facility",
     dept: "Walton County",
     category: "facilities",
@@ -29,6 +31,7 @@ const wcProjects = [
   },
   {
     title: "Coastal Branch Library Expansion",
+    slug: "coastal-branch-library-expansion",
     proposal_name: "BCC Coastal Branch Library Expansion",
     dept: "Walton County",
     category: "facilities",
@@ -43,6 +46,7 @@ const wcProjects = [
   },
   {
     title: "US 331 Bridge Lighting",
+    slug: "us-331-bridge-lighting",
     proposal_name: "BCC US 331 Bridge Lighting",
     dept: "Walton County",
     category: "transportation",
@@ -57,20 +61,22 @@ const wcProjects = [
   },
   {
     title: "ABT Martin (Dirt to Pave)",
-    proposal_name: "PW ABT Marting (Dirt to Pave)",
+    slug: "abt-martin-dirt-to-pave",
+    proposal_name: "PW ABT Martin (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
     category_label: "Transportation",
     description: "ABT Martin (Dirt to Pave) is included in Walton County’s five-year Capital Improvement Plan.",
-    budget: "$60K",
-    funding: "TBD",
+    budget: "$68K",
+    funding: "Transportation Fund",
     district: "Countywide",
-    target: "FY2030",
-    status_text: "Planning Phase",
-    status_class: "wc-status-planning"
+    target: "FY2031",
+    status_text: "Construction",
+    status_class: "wc-status-construction"
   },
   {
     title: "Alderberry Connector Road Extension",
+    slug: "alderberry-connector-road-extension",
     proposal_name: "PW Alderberry Connector Road Extension",
     dept: "Walton County",
     category: "transportation",
@@ -85,13 +91,14 @@ const wcProjects = [
   },
   {
     title: "Amaryllis Lane (Dirt to Pave)",
+    slug: "amaryllis-lane-dirt-to-pave",
     proposal_name: "PW Amaryllis Lane (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
     category_label: "Transportation",
     description: "Amaryllis Lane (Dirt to Pave) is included in Walton County’s five-year Capital Improvement Plan.",
-    budget: "$57K",
-    funding: "TBD",
+    budget: "$76K",
+    funding: "Transportation Fund",
     district: "Countywide",
     target: "FY2029",
     status_text: "Planning Phase",
@@ -99,13 +106,14 @@ const wcProjects = [
   },
   {
     title: "Arbour Street (Dirt to Pave)",
+    slug: "arbour-street-dirt-to-pave",
     proposal_name: "PW Arbour Street (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
     category_label: "Transportation",
     description: "Arbour Street (Dirt to Pave) is included in Walton County’s five-year Capital Improvement Plan.",
     budget: "$107K",
-    funding: "TBD",
+    funding: "Transportation Fund",
     district: "Countywide",
     target: "FY2027",
     status_text: "Planning Phase",
@@ -113,20 +121,22 @@ const wcProjects = [
   },
   {
     title: "Bluebottle Court (Dirt to Pave)",
+    slug: "bluebottle-court-dirt-to-pave",
     proposal_name: "PW Bluebottle Court (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
     category_label: "Transportation",
     description: "Bluebottle Court (Dirt to Pave) is included in Walton County’s five-year Capital Improvement Plan.",
-    budget: "$19K",
-    funding: "TBD",
+    budget: "$26K",
+    funding: "Transportation Fund",
     district: "Countywide",
-    target: "FY2030",
+    target: "FY2031",
     status_text: "Planning Phase",
     status_class: "wc-status-planning"
   },
   {
     title: "Blue Gulf Resort Roadway & Drainage Improvements",
+    slug: "blue-gulf-resort-roadway-and-drainage-improvements",
     proposal_name: "PW Blue Gulf Resort Roadway & Drainage Improvements",
     dept: "Walton County",
     category: "drainage",
@@ -141,6 +151,7 @@ const wcProjects = [
   },
   {
     title: "Future Bridge Design",
+    slug: "future-bridge-design",
     proposal_name: "PW Bridge Design/TBD",
     dept: "Walton County",
     category: "transportation",
@@ -155,6 +166,7 @@ const wcProjects = [
   },
   {
     title: "Chat Holley & US 331 Intersection Improvements (Long Term Option)",
+    slug: "chat-holley-and-us-331-intersection-improvements-long-term-option",
     proposal_name: "PW Chat Holley & US 331 Intersection Improvements (Long Term Option)",
     dept: "Walton County",
     category: "transportation",
@@ -169,13 +181,14 @@ const wcProjects = [
   },
   {
     title: "Clover Lane (Dirt to Pave)",
+    slug: "clover-lane-dirt-to-pave",
     proposal_name: "PW Clover Lane (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
     category_label: "Transportation",
     description: "Clover Lane (Dirt to Pave) is included in Walton County’s five-year Capital Improvement Plan.",
-    budget: "$81K",
-    funding: "TBD",
+    budget: "$112K",
+    funding: "Transportation Fund",
     district: "Countywide",
     target: "FY2028",
     status_text: "Planning Phase",
@@ -183,6 +196,7 @@ const wcProjects = [
   },
   {
     title: "Cook Road Reconstruction",
+    slug: "cook-road-reconstruction",
     proposal_name: "PW Cook Road Reconstruction",
     dept: "Walton County",
     category: "transportation",
@@ -197,6 +211,7 @@ const wcProjects = [
   },
   {
     title: "County Line Road Paving (Resurfacing)",
+    slug: "county-line-road-paving-resurfacing",
     proposal_name: "PW County Line Road Paving (Resurfacing)",
     dept: "Walton County",
     category: "transportation",
@@ -211,20 +226,22 @@ const wcProjects = [
   },
   {
     title: "Cowslip Court (Dirt to Pave)",
+    slug: "cowslip-court-dirt-to-pave",
     proposal_name: "PW Cowslip Court (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
     category_label: "Transportation",
     description: "Cowslip Court (Dirt to Pave) is included in Walton County’s five-year Capital Improvement Plan.",
-    budget: "$37K",
-    funding: "TBD",
+    budget: "$42K",
+    funding: "Transportation Fund",
     district: "Countywide",
-    target: "FY2030",
+    target: "FY2031",
     status_text: "Planning Phase",
     status_class: "wc-status-planning"
   },
   {
     title: "CR 280 Bob Sikes Roadway Resurfacing Project Phase I",
+    slug: "cr-280-bob-sikes-roadway-resurfacing-project-phase-i",
     proposal_name: "PW CR 280 Bob Sikes Roadway Resurfacing Project Phase I",
     dept: "Walton County",
     category: "transportation",
@@ -239,6 +256,7 @@ const wcProjects = [
   },
   {
     title: "CR 30A & CR 393 Intersection Signalization Improvements",
+    slug: "cr-30a-and-cr-393-intersection-signalization-improvements",
     proposal_name: "PW CR 30A & CR 393 Intersection Signalization Improvements",
     dept: "Walton County",
     category: "transportation",
@@ -253,6 +271,7 @@ const wcProjects = [
   },
   {
     title: "CR 30A Sidewalk from Ventana Blvd to Blue Gulf Dr",
+    slug: "cr-30a-sidewalk-from-ventana-blvd-to-blue-gulf-dr",
     proposal_name: "PW CR 30A Sidewalk from Ventana Blvd to Blue Gulf Dr",
     dept: "Walton County",
     category: "transportation",
@@ -267,6 +286,7 @@ const wcProjects = [
   },
   {
     title: "CR 30A & S Watersound Parkway Signalized Intersection",
+    slug: "cr-30a-and-s-watersound-parkway-signalized-intersection",
     proposal_name: "PW CR 30A & S Watersound Parkway Signalized Intersection",
     dept: "Walton County",
     category: "parks",
@@ -281,6 +301,7 @@ const wcProjects = [
   },
   {
     title: "CR 393 N Roadway & Pedestrian Improvements Phase 2",
+    slug: "cr-393-n-roadway-and-pedestrian-improvements-phase-2",
     proposal_name: "PW CR 393 N Roadway & Pedestrian Improvements Phase 2",
     dept: "Walton County",
     category: "transportation",
@@ -295,6 +316,7 @@ const wcProjects = [
   },
   {
     title: "CR 83 N (Blue Mountain Rd) Extension from US 98 to Chat Holley",
+    slug: "cr-83-n-blue-mountain-rd-extension-from-us-98-to-chat-holley",
     proposal_name: "PW CR 83 N (Blue Mountain Rd) Extension from US 98 to Chat Holley",
     dept: "Walton County",
     category: "transportation",
@@ -309,6 +331,7 @@ const wcProjects = [
   },
   {
     title: "CR 83 S Pedestrian Path Extension",
+    slug: "cr-83-s-pedestrian-path-extension",
     proposal_name: "PW CR 83 S Pedestrian Path Extension",
     dept: "Walton County",
     category: "transportation",
@@ -323,6 +346,7 @@ const wcProjects = [
   },
   {
     title: "Daisy Lane (Dirt to Pave)",
+    slug: "daisy-lane-dirt-to-pave",
     proposal_name: "PW Daisy Lane (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
@@ -337,6 +361,7 @@ const wcProjects = [
   },
   {
     title: "Driftwood Pointe Rd Sidewalk Phase 4 Final Phase",
+    slug: "driftwood-pointe-rd-sidewalk-phase-4-final-phase",
     proposal_name: "PW Driftwood Pointe Rd Sidewalk Phase 4 Final Phase",
     dept: "Walton County",
     category: "transportation",
@@ -351,6 +376,7 @@ const wcProjects = [
   },
   {
     title: "Driftwood & US 98 Intersection Signalization",
+    slug: "driftwood-and-us-98-intersection-signalization",
     proposal_name: "PW Driftwood & US 98 Intersection Signalization",
     dept: "Walton County",
     category: "transportation",
@@ -365,6 +391,7 @@ const wcProjects = [
   },
   {
     title: "East Point Washington Roadway & Pedestrian Improvements",
+    slug: "east-point-washington-roadway-and-pedestrian-improvements",
     proposal_name: "PW East Point Washington Roadway & Pedestrian Improvements",
     dept: "Walton County",
     category: "transportation",
@@ -379,6 +406,7 @@ const wcProjects = [
   },
   {
     title: "E Bay Loop (CR 83A E) Northbound Right Turn Lane",
+    slug: "e-bay-loop-cr-83a-e-northbound-right-turn-lane",
     proposal_name: "PW E Bay Loop (CR 83A E) Northbound Right Turn Lane",
     dept: "Walton County",
     category: "transportation",
@@ -393,6 +421,7 @@ const wcProjects = [
   },
   {
     title: "Fox Lake Drainage Improvements",
+    slug: "fox-lake-drainage-improvements",
     proposal_name: "PW Fox Lake Drainage Improvements",
     dept: "Walton County",
     category: "drainage",
@@ -407,6 +436,7 @@ const wcProjects = [
   },
   {
     title: "Goldsby Rd Multi-Use Path",
+    slug: "goldsby-rd-multi-use-path",
     proposal_name: "PW Goldsby Rd Multi-Use Path",
     dept: "Walton County",
     category: "transportation",
@@ -421,6 +451,7 @@ const wcProjects = [
   },
   {
     title: "Hewett Bayou Connector (E Lamb Drive Extension)",
+    slug: "hewett-bayou-connector-e-lamb-drive-extension",
     proposal_name: "PW Hewett Bayou Connector (E Lamb Drive Extension)",
     dept: "Walton County",
     category: "transportation",
@@ -435,6 +466,7 @@ const wcProjects = [
   },
   {
     title: "Holiday Rd & CR 2378 (Scenic Gulf Drive) Intersection Improvements",
+    slug: "holiday-rd-and-cr-2378-scenic-gulf-drive-intersection-improvements",
     proposal_name: "PW Holiday Rd & CR 2378 (Scenic Gulf Drive) Intersection Improvements",
     dept: "Walton County",
     category: "transportation",
@@ -449,6 +481,7 @@ const wcProjects = [
   },
   {
     title: "Holiday Shores Drainage & Pedestrian Improvements Phase II",
+    slug: "holiday-shores-drainage-and-pedestrian-improvements-phase-ii",
     proposal_name: "PW Holiday Shores Drainage & Pedestrian Improvements Phase II",
     dept: "Walton County",
     category: "drainage",
@@ -463,6 +496,7 @@ const wcProjects = [
   },
   {
     title: "Holiday Shores Drainage & Pedestrian Improvements Phase III",
+    slug: "holiday-shores-drainage-and-pedestrian-improvements-phase-iii",
     proposal_name: "PW Holiday Shores Drainage & Pedestrian Improvements Phase III",
     dept: "Walton County",
     category: "drainage",
@@ -477,20 +511,22 @@ const wcProjects = [
   },
   {
     title: "Honeysuckle Street (Dirt to Pave)",
+    slug: "honeysuckle-street-dirt-to-pave",
     proposal_name: "PW Honeysuckle Street (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
     category_label: "Transportation",
     description: "Honeysuckle Street (Dirt to Pave) is included in Walton County’s five-year Capital Improvement Plan.",
     budget: "$53K",
-    funding: "TBD",
+    funding: "Transportation Fund",
     district: "Countywide",
-    target: "FY2030",
+    target: "FY2031",
     status_text: "Planning Phase",
     status_class: "wc-status-planning"
   },
   {
     title: "Huckaba Road #604114 Bridge Replacement",
+    slug: "huckaba-road-604114-bridge-replacement",
     proposal_name: "PW Huckaba Road #604114 Bridge Replacement",
     dept: "Walton County",
     category: "transportation",
@@ -505,6 +541,7 @@ const wcProjects = [
   },
   {
     title: "Intersection Improvements/Turn Lanes (TBD)",
+    slug: "intersection-improvements-turn-lanes-tbd",
     proposal_name: "PW Intersection Improvements/Turn Lanes (TBD)",
     dept: "Walton County",
     category: "transportation",
@@ -519,13 +556,14 @@ const wcProjects = [
   },
   {
     title: "Iris Lane (Dirt to Pave)",
+    slug: "iris-lane-dirt-to-pave",
     proposal_name: "PW Iris Lane (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
     category_label: "Transportation",
     description: "Iris Lane (Dirt to Pave) is included in Walton County’s five-year Capital Improvement Plan.",
-    budget: "$80K",
-    funding: "TBD",
+    budget: "$110K",
+    funding: "Transportation Fund",
     district: "Countywide",
     target: "FY2028",
     status_text: "Planning Phase",
@@ -533,6 +571,7 @@ const wcProjects = [
   },
   {
     title: "Joe Dugger Road Paving (Resurfacing)",
+    slug: "joe-dugger-road-paving-resurfacing",
     proposal_name: "PW Joe Dugger Road Paving (Resurfacing)",
     dept: "Walton County",
     category: "transportation",
@@ -547,6 +586,7 @@ const wcProjects = [
   },
   {
     title: "Laurel Lane (Dirt to Pave)",
+    slug: "laurel-lane-dirt-to-pave",
     proposal_name: "PW Laurel Lane (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
@@ -561,6 +601,7 @@ const wcProjects = [
   },
   {
     title: "Leichen Street (Dirt to Pave)",
+    slug: "leichen-street-dirt-to-pave",
     proposal_name: "PW Leichen Street (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
@@ -575,6 +616,7 @@ const wcProjects = [
   },
   {
     title: "Long Road Bridge Replacement #604130",
+    slug: "long-road-bridge-replacement-604130",
     proposal_name: "PW Long Road Bridge Replacement #604130",
     dept: "Walton County",
     category: "transportation",
@@ -589,6 +631,7 @@ const wcProjects = [
   },
   {
     title: "Mack Bayou/Sandestin Lane Connector Rd",
+    slug: "mack-bayou-sandestin-lane-connector-rd",
     proposal_name: "PW Mack Bayou/Sandestin Lane Connector Rd",
     dept: "Walton County",
     category: "transportation",
@@ -603,6 +646,7 @@ const wcProjects = [
   },
   {
     title: "Madge Lane & Sally Lane Roadway & Drainage Improvements",
+    slug: "madge-lane-and-sally-lane-roadway-and-drainage-improvements",
     proposal_name: "PW Madge Lane & Sally Lane Roadway & Drainage Improvements",
     dept: "Walton County",
     category: "drainage",
@@ -617,6 +661,7 @@ const wcProjects = [
   },
   {
     title: "Marigold Avenue (Dirt to Pave)",
+    slug: "marigold-avenue-dirt-to-pave",
     proposal_name: "PW Marigold Avenue (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
@@ -631,6 +676,7 @@ const wcProjects = [
   },
   {
     title: "May Lilly Court (Dirt to Pave)",
+    slug: "may-lilly-court-dirt-to-pave",
     proposal_name: "PW May Lilly Court (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
@@ -645,6 +691,7 @@ const wcProjects = [
   },
   {
     title: "Mint Street (Dirt to Pave)",
+    slug: "mint-street-dirt-to-pave",
     proposal_name: "PW Mint Street (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
@@ -659,6 +706,7 @@ const wcProjects = [
   },
   {
     title: "Morrison Springs Site Improvements (Boat Launch Facility)",
+    slug: "morrison-springs-site-improvements-boat-launch-facility",
     proposal_name: "PW Morrison Springs Site Improvements (Boat Launch Facility)",
     dept: "Walton County",
     category: "facilities",
@@ -673,6 +721,7 @@ const wcProjects = [
   },
   {
     title: "Multi-Use Path Bridge Updated Inspection & Recommendation Report",
+    slug: "multi-use-path-bridge-updated-inspection-and-recommendation-report",
     proposal_name: "PW Multi-Use Path Bridge Updated Inspection & Recommendation Report",
     dept: "Walton County",
     category: "transportation",
@@ -687,6 +736,7 @@ const wcProjects = [
   },
   {
     title: "Nancy Darby Road Paving (Resurfacing)",
+    slug: "nancy-darby-road-paving-resurfacing",
     proposal_name: "PW Nancy Darby Road Paving (Resurfacing)",
     dept: "Walton County",
     category: "transportation",
@@ -701,6 +751,7 @@ const wcProjects = [
   },
   {
     title: "N Orange Street Pedestrian Improvements",
+    slug: "n-orange-street-pedestrian-improvements",
     proposal_name: "PW N Orange Street Pedestrian Improvements",
     dept: "Walton County",
     category: "transportation",
@@ -715,6 +766,7 @@ const wcProjects = [
   },
   {
     title: "Oak Grove Road Phase II (Resurfacing)",
+    slug: "oak-grove-road-phase-ii-resurfacing",
     proposal_name: "PW Oak Grove Road PH 2 Reconstruction (Resurfacing)",
     dept: "Walton County",
     category: "transportation",
@@ -729,6 +781,7 @@ const wcProjects = [
   },
   {
     title: "Passion Flower Street (Dirt to Pave)",
+    slug: "passion-flower-street-dirt-to-pave",
     proposal_name: "PW Passion Flower Street (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
@@ -743,6 +796,7 @@ const wcProjects = [
   },
   {
     title: "Patch Road (Dirt to Pave)",
+    slug: "patch-road-dirt-to-pave",
     proposal_name: "PW Patch Road (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
@@ -757,6 +811,7 @@ const wcProjects = [
   },
   {
     title: "Pavement Condition Index (PCI) Study",
+    slug: "pavement-condition-index-pci-study",
     proposal_name: "PW Pavement Condition Index (PCI) Study",
     dept: "Walton County",
     category: "transportation",
@@ -771,6 +826,7 @@ const wcProjects = [
   },
   {
     title: "Pavement Management (PCI) Overlay",
+    slug: "pavement-management-pci-overlay",
     proposal_name: "PW Pavement Management (PCI)",
     dept: "Walton County",
     category: "transportation",
@@ -785,6 +841,7 @@ const wcProjects = [
   },
   {
     title: "Pedestrian Paths_Project 1",
+    slug: "pedestrian-paths-project-1",
     proposal_name: "PW Pedestrian Paths_Project 1",
     dept: "Walton County",
     category: "transportation",
@@ -799,6 +856,7 @@ const wcProjects = [
   },
   {
     title: "Pedestrian Paths_Project 2",
+    slug: "pedestrian-paths-project-2",
     proposal_name: "PW Pedestrian Paths_Project 2",
     dept: "Walton County",
     category: "transportation",
@@ -813,6 +871,7 @@ const wcProjects = [
   },
   {
     title: "Pedestrian Paths_Project 3",
+    slug: "pedestrian-paths-project-3",
     proposal_name: "PW Pedestrian Paths_Project 3",
     dept: "Walton County",
     category: "transportation",
@@ -827,6 +886,7 @@ const wcProjects = [
   },
   {
     title: "Pedestrian Paths_Project 4",
+    slug: "pedestrian-paths-project-4",
     proposal_name: "PW Pedestrian Paths_Project 4",
     dept: "Walton County",
     category: "transportation",
@@ -841,6 +901,7 @@ const wcProjects = [
   },
   {
     title: "Pedestrian Paths_Project 5",
+    slug: "pedestrian-paths-project-5",
     proposal_name: "PW Pedestrian Paths_Project 5",
     dept: "Walton County",
     category: "transportation",
@@ -855,6 +916,7 @@ const wcProjects = [
   },
   {
     title: "Pine Tree Lane (Dirt to Pave)",
+    slug: "pine-tree-lane-dirt-to-pave",
     proposal_name: "PW Pine Tree Lane (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
@@ -869,6 +931,7 @@ const wcProjects = [
   },
   {
     title: "Poinciana Blvd & Scenic Hwy 98 Intersection Signalization",
+    slug: "poinciana-blvd-and-scenic-hwy-98-intersection-signalization",
     proposal_name: "PW Poinciana Blvd & Scenic Hwy 98 Intersection Signalization",
     dept: "Walton County",
     category: "transportation",
@@ -883,6 +946,7 @@ const wcProjects = [
   },
   {
     title: "Poinicana Blvd Roadway, Drainage & Pedestrian Improvements",
+    slug: "poinicana-blvd-roadway-drainage-and-pedestrian-improvements",
     proposal_name: "PW Poinicana Blvd Roadway, Drainage & Pedestrian Improvements",
     dept: "Walton County",
     category: "drainage",
@@ -897,6 +961,7 @@ const wcProjects = [
   },
   {
     title: "Red Magnolia Lane (Dirt to Pave)",
+    slug: "red-magnolia-lane-dirt-to-pave",
     proposal_name: "PW Red Magnolia Lane (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
@@ -911,6 +976,7 @@ const wcProjects = [
   },
   {
     title: "Rio Ranchero Road (Dirt to Pave)",
+    slug: "rio-ranchero-road-dirt-to-pave",
     proposal_name: "PW Rio Ranchero Road (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
@@ -925,6 +991,7 @@ const wcProjects = [
   },
   {
     title: "Rock Hill Rd Improvements - Phase",
+    slug: "rock-hill-rd-improvements-phase",
     proposal_name: "PW Rock Hill Rd Improvements - Phase 2",
     dept: "Walton County",
     category: "transportation",
@@ -939,6 +1006,7 @@ const wcProjects = [
   },
   {
     title: "Rock Hill Rd Improvements - Phase 3",
+    slug: "rock-hill-rd-improvements-phase-3",
     proposal_name: "PW Rock Hill Rd Improvements - Phase 3",
     dept: "Walton County",
     category: "transportation",
@@ -953,6 +1021,7 @@ const wcProjects = [
   },
   {
     title: "Rock Hill Rd Improvements Phase 4 (Final)",
+    slug: "rock-hill-rd-improvements-phase-4-final",
     proposal_name: "PW Rock Hill Rd Improvements- Phase 4 (Final)",
     dept: "Walton County",
     category: "transportation",
@@ -967,6 +1036,7 @@ const wcProjects = [
   },
   {
     title: "Rosewood Lane (Dirt to Pave)",
+    slug: "rosewood-lane-dirt-to-pave",
     proposal_name: "PW Rosewood Lane (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
@@ -981,6 +1051,7 @@ const wcProjects = [
   },
   {
     title: "SeeSaw Bend (Dirt to Pave)",
+    slug: "seesaw-bend-dirt-to-pave",
     proposal_name: "PW SeeSaw Bend (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
@@ -995,6 +1066,7 @@ const wcProjects = [
   },
   {
     title: "Seven Oaks Road Paving (Resurfacing)",
+    slug: "seven-oaks-road-paving-resurfacing",
     proposal_name: "PW Seven Oaks Road Paving (Resurfacing)",
     dept: "Walton County",
     category: "transportation",
@@ -1009,6 +1081,7 @@ const wcProjects = [
   },
   {
     title: "Shorey Drive (Dirt to Pave)",
+    slug: "shorey-drive-dirt-to-pave",
     proposal_name: "PW Shorey Drive (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
@@ -1023,6 +1096,7 @@ const wcProjects = [
   },
   {
     title: "Snapdragon Street (Dirt to Pave)",
+    slug: "snapdragon-street-dirt-to-pave",
     proposal_name: "PW Snapdragon Street (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
@@ -1037,6 +1111,7 @@ const wcProjects = [
   },
   {
     title: "South Orange Street Pedestrian Improvements",
+    slug: "south-orange-street-pedestrian-improvements",
     proposal_name: "PW South Orange Street Pedestrian Improvements",
     dept: "Walton County",
     category: "transportation",
@@ -1051,6 +1126,7 @@ const wcProjects = [
   },
   {
     title: "Sugar Drive Connector Rd",
+    slug: "sugar-drive-connector-rd",
     proposal_name: "PW Sugar Drive Connector Rd",
     dept: "Walton County",
     category: "transportation",
@@ -1065,6 +1141,7 @@ const wcProjects = [
   },
   {
     title: "Tiger Lily Lane (Dirt to Pave)",
+    slug: "tiger-lily-lane-dirt-to-pave",
     proposal_name: "PW Tiger Lily Lane (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
@@ -1079,6 +1156,7 @@ const wcProjects = [
   },
   {
     title: "US 331 Multi-Use Path (CR 3280 to North of Bridge)",
+    slug: "us-331-multi-use-path-cr-3280-to-north-of-bridge",
     proposal_name: "PW US 331 Multi-Use Path (CR 3280 to North of Bridge)",
     dept: "Walton County",
     category: "transportation",
@@ -1093,6 +1171,7 @@ const wcProjects = [
   },
   {
     title: "US 98 & South Lakeshore Intersection Signalization Project",
+    slug: "us-98-and-south-lakeshore-intersection-signalization-project",
     proposal_name: "PW US 98 & South Lakeshore Intersection Signalization Project",
     dept: "Walton County",
     category: "transportation",
@@ -1107,6 +1186,7 @@ const wcProjects = [
   },
   {
     title: "US 98 & Thompson Rd Intersection Signalization Project",
+    slug: "us-98-and-thompson-rd-intersection-signalization-project",
     proposal_name: "PW US 98 & Thompson Rd Intersection Signalization Project",
     dept: "Walton County",
     category: "transportation",
@@ -1121,6 +1201,7 @@ const wcProjects = [
   },
   {
     title: "Varnum Road #604124 Bridge Replacement",
+    slug: "varnum-road-604124-bridge-replacement",
     proposal_name: "PW Varnum Road #604124 Bridge Replacement",
     dept: "Walton County",
     category: "transportation",
@@ -1135,6 +1216,7 @@ const wcProjects = [
   },
   {
     title: "Veterans Road Improvements & Extension",
+    slug: "veterans-road-improvements-and-extension",
     proposal_name: "PW Veterans Road Improvements & Extension",
     dept: "Walton County",
     category: "transportation",
@@ -1149,6 +1231,7 @@ const wcProjects = [
   },
   {
     title: "Wall Street, Pinewood and Walton Lakeshore Pedestrian Improvements",
+    slug: "wall-street-pinewood-and-walton-lakeshore-pedestrian-improvements",
     proposal_name: "PW Wall Street, Pinewood & Walton Lakeshore Pedestrian Improvements",
     dept: "Walton County",
     category: "transportation",
@@ -1163,6 +1246,7 @@ const wcProjects = [
   },
   {
     title: "Walnut Drive (Dirt to Pave)",
+    slug: "walnut-drive-dirt-to-pave",
     proposal_name: "PW Walnut Drive (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
@@ -1177,6 +1261,7 @@ const wcProjects = [
   },
   {
     title: "Walton Magnolia and Park Place Drainage Improvements",
+    slug: "walton-magnolia-and-park-place-drainage-improvements",
     proposal_name: "PW Walton Magnolia and Park Place Drainage Improvements",
     dept: "Walton County",
     category: "parks",
@@ -1191,6 +1276,7 @@ const wcProjects = [
   },
   {
     title: "Watson Road Paving (Resurfacing)",
+    slug: "watson-road-paving-resurfacing",
     proposal_name: "PW Watson Road Paving (Resurfacing)",
     dept: "Walton County",
     category: "transportation",
@@ -1205,6 +1291,7 @@ const wcProjects = [
   },
   {
     title: "West Fernwwod Court (Dirt to Pave)",
+    slug: "west-fernwwod-court-dirt-to-pave",
     proposal_name: "PW West Fernwwod Court (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
@@ -1219,6 +1306,7 @@ const wcProjects = [
   },
   {
     title: "West Hewett Multi-Use Path",
+    slug: "west-hewett-multi-use-path",
     proposal_name: "PW West Hewett Multi-Use Path",
     dept: "Walton County",
     category: "transportation",
@@ -1233,6 +1321,7 @@ const wcProjects = [
   },
   {
     title: "West Snowdrop Street (Dirt to Pave)",
+    slug: "west-snowdrop-street-dirt-to-pave",
     proposal_name: "PW West Snowdrop Street (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
@@ -1247,6 +1336,7 @@ const wcProjects = [
   },
   {
     title: "West Violet Lane (Dirt to Pave)",
+    slug: "west-violet-lane-dirt-to-pave",
     proposal_name: "PW West Violet Lane (Dirt to Pave)",
     dept: "Walton County",
     category: "transportation",
@@ -1261,6 +1351,7 @@ const wcProjects = [
   },
   {
     title: "Whitfield Bridge (#604026) Replacement",
+    slug: "whitfield-bridge-604026-replacement",
     proposal_name: "PW Whitfield Bridge (#604026) Replacement",
     dept: "Walton County",
     category: "transportation",
@@ -1275,6 +1366,7 @@ const wcProjects = [
   },
   {
     title: "Bruce Fire Station",
+    slug: "bruce-fire-station",
     proposal_name: "Sheriff Bruce Fire Station",
     dept: "Walton County",
     category: "public safety",
@@ -1289,6 +1381,7 @@ const wcProjects = [
   },
   {
     title: "Fire Station",
+    slug: "fire-station",
     proposal_name: "Sheriff Fire Station",
     dept: "Walton County",
     category: "public safety",
@@ -1303,6 +1396,7 @@ const wcProjects = [
   },
   {
     title: "Fleet Shop - including EV",
+    slug: "fleet-shop-including-ev",
     proposal_name: "Sheriff Fleet Shop Including EV",
     dept: "Walton County",
     category: "transportation",
@@ -1317,6 +1411,7 @@ const wcProjects = [
   },
   {
     title: "Freeport 3280/Bearcreek Fire Station",
+    slug: "freeport-3280-bearcreek-fire-station",
     proposal_name: "Sheriff Freeport 3280/Bearcreek Fire Station",
     dept: "Walton County",
     category: "public safety",
@@ -1331,6 +1426,7 @@ const wcProjects = [
   },
   {
     title: "Hammock Bay Fire Station",
+    slug: "hammock-bay-fire-station",
     proposal_name: "Sheriff Hammock Bay Fire Station",
     dept: "Walton County",
     category: "public safety",
@@ -1345,6 +1441,7 @@ const wcProjects = [
   },
   {
     title: "Mossy Head Fire Station",
+    slug: "mossy-head-fire-station",
     proposal_name: "Sheriff Mossy Head Fire Station",
     dept: "Walton County",
     category: "public safety",
@@ -1359,6 +1456,7 @@ const wcProjects = [
   },
   {
     title: "Pleasant Ridge Fire Station",
+    slug: "pleasant-ridge-fire-station",
     proposal_name: "Sheriff Pleasant Ridge Fire Station",
     dept: "Walton County",
     category: "public safety",
@@ -1373,6 +1471,7 @@ const wcProjects = [
   },
   {
     title: "Sheriff Triumph Radio Project",
+    slug: "sheriff-triumph-radio-project",
     proposal_name: "Sheriff Radio Project",
     dept: "Walton County",
     category: "public safety",
@@ -1387,6 +1486,7 @@ const wcProjects = [
   },
   {
     title: "South End Sub Station",
+    slug: "south-end-sub-station",
     proposal_name: "Sheriff South End Sub Station",
     dept: "Walton County",
     category: "public safety",
@@ -1401,6 +1501,7 @@ const wcProjects = [
   },
   {
     title: "30A Gateway Improvements",
+    slug: "30a-gateway-improvements",
     proposal_name: "TDT 30A Gateway Improvements",
     dept: "Walton County",
     category: "transportation",
@@ -1415,6 +1516,7 @@ const wcProjects = [
   },
   {
     title: "Boardwalk Dune Walkover Repair/Replacement",
+    slug: "boardwalk-dune-walkover-repair-replacement",
     proposal_name: "TDT Boardwalk Dune Walkover Repair/Replacement",
     dept: "Walton County",
     category: "tourism",
@@ -1429,6 +1531,7 @@ const wcProjects = [
   },
   {
     title: "Deer Lake Path Realignment",
+    slug: "deer-lake-path-realignment",
     proposal_name: "TDT Deer Lake Path Realignment",
     dept: "Walton County",
     category: "transportation",
@@ -1443,6 +1546,7 @@ const wcProjects = [
   },
   {
     title: "Dune Allen Hardscaping Project",
+    slug: "dune-allen-hardscaping-project",
     proposal_name: "TDT Dune Allen Hardscaping Project",
     dept: "Walton County",
     category: "tourism",
@@ -1457,6 +1561,7 @@ const wcProjects = [
   },
   {
     title: "Miramar Beach Parking Facility",
+    slug: "miramar-beach-parking-facility",
     proposal_name: "TDT Miramar Beach Parking Facility",
     dept: "Walton County",
     category: "parks",
@@ -1471,6 +1576,7 @@ const wcProjects = [
   },
   {
     title: "Multi-use Path - 30A Rebuild 395 to Eastern Lake",
+    slug: "multi-use-path-30a-rebuild-395-to-eastern-lake",
     proposal_name: "TDT Multi-Use Path - 30A Rebuild 395 to Eastern Lake",
     dept: "Walton County",
     category: "transportation",
@@ -1485,6 +1591,7 @@ const wcProjects = [
   },
   {
     title: "Multi-use Path - 30A Rebuild 83 to 393",
+    slug: "multi-use-path-30a-rebuild-83-to-393",
     proposal_name: "TDT Multi-use Path - 30A Rebuild 83 to 393",
     dept: "Walton County",
     category: "transportation",
@@ -1499,6 +1606,7 @@ const wcProjects = [
   },
   {
     title: "Santa Rosa Beach Performing Arts Park",
+    slug: "santa-rosa-beach-performing-arts-park",
     proposal_name: "TDT Santa Rosa Beach Performing Arts Park",
     dept: "Walton County",
     category: "parks",
@@ -1513,6 +1621,7 @@ const wcProjects = [
   },
   {
     title: "Visitor and Discovery Center",
+    slug: "visitor-and-discovery-center",
     proposal_name: "TDT Tourism Visitor and Discovery Center",
     dept: "Walton County",
     category: "facilities",
@@ -1527,6 +1636,7 @@ const wcProjects = [
   },
   {
     title: "Transit Program Gulfview & Blue Mountain",
+    slug: "transit-program-gulfview-and-blue-mountain",
     proposal_name: "TDT Transit Program Gulfview & Blue Mountain",
     dept: "Walton County",
     category: "transportation",
@@ -1541,6 +1651,7 @@ const wcProjects = [
   },
   {
     title: "Walton Dunes Beach Access",
+    slug: "walton-dunes-beach-access",
     proposal_name: "TDT Walton Dunes Beach Access",
     dept: "Walton County",
     category: "parks",
