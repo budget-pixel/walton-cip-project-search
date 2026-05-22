@@ -136,6 +136,59 @@
       return clean(row["Budget Period"] || row["Target Year"] || row["Fiscal Year"] || "FY2027");
     }
 
+    function getFundingByYear(row){
+      return getBudgetAmountColumns(row)
+        .map(function(key){
+          return {
+            year: periodColumnToFiscalYear(key),
+            amount_value: parseAmount(row[key]),
+            amount: money(parseAmount(row[key]))
+          };
+        })
+        .filter(function(item){
+          return item.amount_value !== 0;
+        });
+    }
+
+    function getField(row, possibleNames){
+      for(const name of possibleNames){
+        const value = clean(row[name]);
+        if(value){
+          return value;
+        }
+      }
+
+      return "";
+    }
+
+    function isInHouseEngineeringDescription(value){
+      const text = clean(value).toLowerCase();
+
+      return (
+        text.includes("in-house engineering") ||
+        text.includes("in house engineering") ||
+        text.includes("inhouse engineering") ||
+        text.includes("internal engineering") ||
+        text.includes("staff engineering")
+      );
+    }
+
+    function getBudgetRowAmount(row){
+      const explicitAmount =
+        parseAmount(row["Amount"]) ||
+        parseAmount(row["Budget Amount"]) ||
+        parseAmount(row["Total"]) ||
+        parseAmount(row["Total Amount"]);
+
+      if(explicitAmount){
+        return explicitAmount;
+      }
+
+      return getBudgetAmountColumns(row).reduce(function(sum, key){
+        return sum + parseAmount(row[key]);
+      }, 0);
+    }
+
     function categoryFromText(text){
       const t = text.toLowerCase();
 
@@ -153,6 +206,18 @@
         .split(" ")
         .map(w => w.charAt(0).toUpperCase() + w.slice(1))
         .join(" ");
+    }
+
+    function departmentFromProposalName(proposalName){
+      const value = clean(proposalName).toLowerCase();
+
+      if(value.startsWith("bcc")) return "Administration";
+      if(value.startsWith("pw")) return "Public Works/Engineering";
+      if(value.startsWith("sheriff")) return "Sheriff";
+      if(value.startsWith("tdc")) return "Beach Operations";
+      if(value.startsWith("fm")) return "Building Construction & Maintenance";
+
+      return "Walton County";
     }
 
     function statusFromPhase(phase){
@@ -201,6 +266,33 @@
           }
         });
 
+        const inHouseEngineeringByProposal = {};
+
+        budgetRows.forEach(function(row){
+          const proposalKey = clean(row["Proposal"] || row["Proposal Name"] || "");
+          const description = clean(row["Description"] || row["description"] || "");
+
+          if(!proposalKey || !isInHouseEngineeringDescription(description)){
+            return;
+          }
+
+          const amount = getBudgetRowAmount(row);
+
+          if(!inHouseEngineeringByProposal[proposalKey]){
+            inHouseEngineeringByProposal[proposalKey] = {
+              value: 0,
+              rows: []
+            };
+          }
+
+          inHouseEngineeringByProposal[proposalKey].value += amount;
+          inHouseEngineeringByProposal[proposalKey].rows.push({
+            description,
+            amount_value: amount,
+            amount: money(amount)
+          });
+        });
+
         const projects = rows
           .filter(row => {
             const proposalName = clean(row["Proposal Name"] || row["Proposal"] || "");
@@ -225,14 +317,24 @@
               row["Name"]
             );
             const proposalNameVal = clean(row["Proposal Name"] || "");
-            const dept = clean(row["Department"] || row["Submitting Department"] || "");
+            const dept = departmentFromProposalName(proposalName);
+            const projectManager = getField(row,["Project Manager","project manager","Project manager"]);
+            const estimatedCompletionDate = getField(row,["Estimated Completion Date","estimated completion date"]);
+            const startDate = getField(row,["Start Date","start date"]);
+            const priority = getField(row,["Project Priority","project priority"]);
+            const strategicGoals = getField(row,["Strategic Goals","strategic goals"]);
+            const operationalImpact = getField(row,["Operational Impact","operational impact"]);
+            const pertinentInformation = getField(row,["Pertinent Information","pertinent information"]);
+            const locationName = getField(row,["Location Name","location name"]);
             const phase = clean(row["Phase"] || row["Project Phase"] || "");
             const funding = clean(row["Fund"] || row["Funding Source"] || row["Source of Funding"] || "TBD");
-            const district = clean(row["District"] || "Countywide");
+            const district = clean(row["Commissioner District"] || row["commissioner district"] || row["Commissioner district"] || row["District"] || "Countywide");
             const description = clean(row["Project Narrative"] || row["project narrative"] || row["Description"] || row["Project Description"] || row["Justification"] || `${title} is included in Walton County’s five-year Capital Improvement Plan.`);
 
             const amount = getProjectAmount(row);
             const target = getTargetYears(row);
+            const fundingByYear = getFundingByYear(row);
+            const inHouseEngineering = inHouseEngineeringByProposal[proposalName] || { value: 0, rows: [] };
 
             const category = categoryFromText(`${title} ${dept} ${description}`);
             const status = statusFromPhase(phase);
@@ -241,11 +343,25 @@
               title,
               slug: slugify(title),
               proposal_name: proposalName,
-              dept: dept || "Walton County",
+              dept,
+              project_manager: projectManager,
+              estimated_completion_date: estimatedCompletionDate,
+              start_date: startDate,
+              priority,
+              strategic_goals: strategicGoals,
+              operational_impact: operationalImpact,
+              pertinent_information: pertinentInformation,
+              location_name: locationName,
               category,
               category_label: labelFromCategory(category),
               description,
               budget: money(amount),
+              budget_value: amount,
+              funding_by_year: fundingByYear,
+              has_in_house_engineering: inHouseEngineering.value !== 0,
+              in_house_engineering_value: inHouseEngineering.value,
+              in_house_engineering_value_formatted: money(inHouseEngineering.value),
+              in_house_engineering_rows: inHouseEngineering.rows,
               funding: funding || "TBD",
               district,
               target,
