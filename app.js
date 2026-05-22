@@ -3,7 +3,14 @@ const app = document.getElementById("app");
 const defaultVisibleCount = 9;
 const loadMoreIncrement = 9;
 const urlParams = new URLSearchParams(window.location.search);
+
 const isFullView = urlParams.get("view") === "all";
+
+const WC_CIP_BASE_URL = "https://budget-pixel.github.io/walton-cip-project-search/";
+
+function buildProjectUrl(project){
+  return `${WC_CIP_BASE_URL}project.html?project=${encodeURIComponent(project.slug || "")}`;
+}
 
 
 let visibleLimit = isFullView ? 9999 : defaultVisibleCount;
@@ -77,7 +84,7 @@ function renderProjectCard(project){
   const statusClass = project.status_class || getStatusClass(project.status_text);
 
   return `
-    <article class="wc-project-card" data-category="${escapeHtml(project.category)}" data-target="${escapeHtml(String(project.target || "").toLowerCase())}" data-project-url="project.html?project=${escapeHtml(project.slug)}" tabindex="0" role="link" aria-label="View details for ${escapeHtml(project.title)}">
+    <article class="wc-project-card" data-category="${escapeHtml(project.category)}" data-target="${escapeHtml(String(project.target || "").toLowerCase())}" data-project-url="${escapeHtml(buildProjectUrl(project))}" tabindex="0" role="link" aria-label="View details for ${escapeHtml(project.title)}">
 
       <div class="wc-project-card-top">
         <h3>${escapeHtml(project.title)}</h3>
@@ -959,7 +966,7 @@ function renderProjects(){
       const projectUrl = card.dataset.projectUrl;
 
       if(projectUrl){
-        window.location.href = projectUrl;
+        window.open(projectUrl, "_blank", "noopener,noreferrer");
       }
     });
 
@@ -977,7 +984,7 @@ function renderProjects(){
       const projectUrl = card.dataset.projectUrl;
 
       if(projectUrl){
-        window.location.href = projectUrl;
+        window.open(projectUrl, "_blank", "noopener,noreferrer");
       }
     });
   });
