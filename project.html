@@ -96,6 +96,17 @@
     margin-bottom:0;
   }
 
+  .wc-project-hero{
+    background:#ffffff;
+    border-radius:28px;
+    padding:42px;
+    margin-bottom:32px;
+    border:1px solid rgba(209,190,120,0.34);
+    box-shadow:
+      0 18px 44px rgba(0,98,49,0.08),
+      0 6px 14px rgba(36,52,77,0.06);
+  }
+
   .wc-project-title{
     margin:0 0 18px 0;
     font-size:52px;
@@ -125,17 +136,18 @@
   }
 
   .wc-project-kicker-item{
-    padding:16px;
+    padding:18px;
     border-radius:18px;
-    background:#f8faf8;
-    border:1px solid rgba(0,98,49,0.08);
+    background:#006231;
+    border:1px solid #006231;
+    box-shadow:0 10px 22px rgba(0,98,49,0.18);
   }
 
   .wc-project-kicker-item span{
     display:block;
     margin-bottom:7px;
-    color:#667085;
-    font-size:11px;
+    color:rgba(255,255,255,0.72);
+    font-size:10px;
     font-weight:700;
     letter-spacing:.08em;
     text-transform:uppercase;
@@ -143,7 +155,7 @@
 
   .wc-project-kicker-item strong{
     display:block;
-    color:#172033;
+    color:#ffffff;
     font-size:15px;
     line-height:1.35;
   }
@@ -215,17 +227,18 @@
   }
 
   .wc-project-budget-highlight{
-    padding:22px;
+    padding:24px;
     border-radius:20px;
-    background:linear-gradient(135deg, rgba(0,98,49,0.10), rgba(209,190,120,0.16));
-    border:1px solid rgba(0,98,49,0.10);
+    background:#006231;
+    border:1px solid #006231;
     margin-bottom:18px;
+    box-shadow:0 14px 28px rgba(0,98,49,0.20);
   }
 
   .wc-project-budget-highlight span{
     display:block;
     margin-bottom:8px;
-    color:#667085;
+    color:rgba(255,255,255,0.72);
     font-size:11px;
     font-weight:700;
     letter-spacing:.08em;
@@ -234,9 +247,42 @@
 
   .wc-project-budget-highlight strong{
     display:block;
-    color:#172033;
+    color:#ffffff;
     font-size:30px;
     line-height:1.2;
+  }
+
+  .wc-project-year-breakdown{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-top:18px;
+  }
+
+  .wc-project-year-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:13px 15px;
+    border-radius:14px;
+    background:#f8faf8;
+    border:1px solid rgba(0,98,49,0.08);
+  }
+
+  .wc-project-year-row span{
+    color:#667085;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+
+  .wc-project-year-row strong{
+    color:#172033;
+    font-size:15px;
+    line-height:1.35;
+    text-align:right;
   }
 
   .wc-project-status{
@@ -395,6 +441,16 @@
       text-align:left;
     }
 
+    .wc-project-year-row{
+      display:block;
+    }
+
+    .wc-project-year-row strong{
+      display:block;
+      margin-top:6px;
+      text-align:left;
+    }
+
     .wc-project-metrics{
       grid-template-columns:1fr;
     }
@@ -454,6 +510,59 @@ function renderListItem(label, value){
   `;
 }
 
+function normalizeFundingBreakdown(project){
+  const possibleBreakdowns = [
+    project.funding_by_year,
+    project.fiscal_year_breakdown,
+    project.funding_breakdown,
+    project.yearly_funding,
+    project.budget_by_year,
+    project.fy_breakdown
+  ];
+
+  const breakdown = possibleBreakdowns.find(item => Array.isArray(item) && item.length);
+
+  if(!breakdown){
+    return [];
+  }
+
+  return breakdown
+    .map(item => {
+      if(Array.isArray(item)){
+        return {
+          year:item[0],
+          amount:item[1]
+        };
+      }
+
+      return {
+        year:item.year || item.fiscal_year || item.fy || item.label,
+        amount:item.amount || item.value || item.budget || item.funding || item.total
+      };
+    })
+    .filter(item => item.year || item.amount);
+}
+
+function renderFundingBreakdown(project){
+  const yearlyFunding = normalizeFundingBreakdown(project);
+
+  if(!yearlyFunding.length){
+    return "";
+  }
+
+  return `
+    <h2 style="margin-top:26px;">Fiscal Year Breakdown</h2>
+    <div class="wc-project-year-breakdown">
+      ${yearlyFunding.map(item => `
+        <div class="wc-project-year-row">
+          <span>${displayValue(item.year)}</span>
+          <strong>${displayValue(item.amount)}</strong>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
 const params = new URLSearchParams(window.location.search);
 
 const slug = params.get("project");
@@ -491,8 +600,7 @@ if(!project){
     <main class="wc-project-page">
 
       <div class="wc-project-actions">
-        <a class="wc-project-back" href="${backHref}">← Back to Project Index</a>
-        <a class="wc-project-full-search" href="${backHref}">View Full Project Search</a>
+        <a class="wc-project-back" href="${backHref}">← Back to Project Search</a>
       </div>
 
       <section class="wc-project-hero">
@@ -511,33 +619,29 @@ if(!project){
           ${displayValue(title)}
         </h1>
 
-        <div class="wc-project-description">
-          ${displayValue(description)}
-        </div>
-
-        <div class="wc-project-kicker">
-          <div class="wc-project-kicker-item">
-            <span>Budget</span>
-            <strong>${displayValue(budget)}</strong>
-          </div>
-
-          <div class="wc-project-kicker-item">
-            <span>Funding</span>
-            <strong>${displayValue(funding)}</strong>
-          </div>
-
-          <div class="wc-project-kicker-item">
-            <span>Department</span>
-            <strong>${displayValue(department)}</strong>
-          </div>
-
-          <div class="wc-project-kicker-item">
-            <span>Target Year</span>
-            <strong>${displayValue(target)}</strong>
-          </div>
-        </div>
-
       </section>
+
+      <div class="wc-project-kicker">
+        <div class="wc-project-kicker-item">
+          <span>Budget</span>
+          <strong>${displayValue(budget)}</strong>
+        </div>
+
+        <div class="wc-project-kicker-item">
+          <span>Funding</span>
+          <strong>${displayValue(funding)}</strong>
+        </div>
+
+        <div class="wc-project-kicker-item">
+          <span>Department</span>
+          <strong>${displayValue(department)}</strong>
+        </div>
+
+        <div class="wc-project-kicker-item">
+          <span>Target Year</span>
+          <strong>${displayValue(target)}</strong>
+        </div>
+      </div>
 
       <div class="wc-project-grid">
 
@@ -561,6 +665,8 @@ if(!project){
               ${renderListItem("Fiscal Year", fiscalYear)}
               ${renderListItem("Target Year", target)}
             </div>
+
+            ${renderFundingBreakdown(project)}
           </section>
 
         </div>
