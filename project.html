@@ -439,8 +439,10 @@ function getProjectValue(project, keys, fallback = "Not specified"){
   return fallback;
 }
 
+const WC_CIP_BASE_URL = "https://budget-pixel.github.io/walton-cip-project-search/";
+
 function buildBackHref(){
-  return "./?view=all";
+  return `${WC_CIP_BASE_URL}?view=all`;
 }
 
 function renderListItem(label, value){
