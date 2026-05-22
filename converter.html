@@ -229,7 +229,7 @@
             const phase = clean(row["Phase"] || row["Project Phase"] || "");
             const funding = clean(row["Fund"] || row["Funding Source"] || row["Source of Funding"] || "TBD");
             const district = clean(row["District"] || "Countywide");
-            const description = clean(row["Description"] || row["Project Description"] || row["Justification"] || `${title} is included in Walton County’s five-year Capital Improvement Plan.`);
+            const description = clean(row["Project Narrative"] || row["project narrative"] || row["Description"] || row["Project Description"] || row["Justification"] || `${title} is included in Walton County’s five-year Capital Improvement Plan.`);
 
             const amount = getProjectAmount(row);
             const target = getTargetYears(row);
