@@ -133,8 +133,12 @@ function renderProjectCard(project){
         </div>
 
         ${project.has_in_house_engineering ? `
-          <div class="wc-project-card-badge">
-            County Staff Delivery${staffDeliveryValue ? ` · ${escapeHtml(staffDeliveryValue)}` : ""}
+          <div
+            class="wc-project-card-badge"
+            title="Estimated equivalent consultant engineering value delivered internally by County staff. Not included in total project budget."
+            aria-label="In-house engineering savings${staffDeliveryValue ? `, ${escapeHtml(staffDeliveryValue)}` : ""}. Estimated equivalent consultant engineering value delivered internally by County staff. Not included in total project budget."
+          >
+            In-House Eng Savings${staffDeliveryValue ? ` · ${escapeHtml(staffDeliveryValue)}` : ""}
           </div>
         ` : ""}
 
@@ -590,19 +594,13 @@ function renderProjects(){
         width:max-content;
         padding:9px 13px;
         border-radius:999px;
-        background:rgba(0,98,49,0.10);
-        color:#006231;
-        border:1px solid rgba(0,98,49,0.14);
+        background:rgba(52,64,84,0.08);
+        color:#344054;
+        border:1px solid rgba(52,64,84,0.16);
         font-size:12px;
         font-weight:800;
         letter-spacing:.04em;
         text-transform:uppercase;
-      }
-
-      .wc-project-card-badge::before{
-        content:"✔";
-        font-size:11px;
-        line-height:1;
       }
 
       .wc-status-planning{ background:rgba(209,190,120,0.18); color:#8b6d12; }
