@@ -368,12 +368,41 @@
     text-transform:uppercase;
   }
 
+
   .wc-project-status::before{
     content:"";
     width:10px;
     height:10px;
     border-radius:999px;
     background:currentColor;
+  }
+
+  .wc-project-highlight-badges{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:18px;
+  }
+
+  .wc-project-highlight-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 14px;
+    border-radius:999px;
+    background:rgba(0,98,49,0.10);
+    color:#006231;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.04em;
+    border:1px solid rgba(0,98,49,0.12);
+  }
+
+  .wc-project-highlight-badge::before{
+    content:"✔";
+    font-size:11px;
+    line-height:1;
   }
 
   .wc-status-planning{
@@ -643,6 +672,7 @@ function renderFundingBreakdown(project){
   `;
 }
 
+
 function renderStaffDeliveryValue(project){
   if(!project.has_in_house_engineering){
     return "";
@@ -671,6 +701,36 @@ function renderStaffDeliveryValue(project){
         ` : ""}
       </div>
     </section>
+  `;
+}
+
+function renderOverviewBadges(project){
+  const badges = [];
+
+  if(project.has_in_house_engineering){
+    badges.push(`
+      <div class="wc-project-highlight-badge">
+        County Staff Delivery Value · ${displayValue(project.in_house_engineering_value_formatted || project.in_house_engineering_value)}
+      </div>
+    `);
+  }
+
+  if(project.priority){
+    badges.push(`
+      <div class="wc-project-highlight-badge">
+        Priority · ${displayValue(project.priority)}
+      </div>
+    `);
+  }
+
+  if(!badges.length){
+    return "";
+  }
+
+  return `
+    <div class="wc-project-highlight-badges">
+      ${badges.join("")}
+    </div>
   `;
 }
 
@@ -724,6 +784,8 @@ if(!project){
           <div class="wc-project-status ${statusClass}">
             ${displayValue(statusText)}
           </div>
+
+          ${renderOverviewBadges(project)}
         </div>
 
         <h1 class="wc-project-title">
