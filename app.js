@@ -949,8 +949,10 @@ function renderProjects(){
     }
 
     description.style.maxHeight = "none";
+    const fullDescriptionHeight = description.scrollHeight;
+    description.style.maxHeight = "";
 
-    if(description.scrollHeight > 78){
+    if(fullDescriptionHeight > 78){
       card.classList.add("has-overflow");
     }else{
       card.classList.remove("has-overflow");
