@@ -368,7 +368,7 @@ function renderProjects(){
       .wc-project-row{
         display:flex !important;
         flex-direction:row !important;
-        align-items:flex-start !important;
+        align-items:stretch !important;
         justify-content:flex-start !important;
         gap:24px !important;
         width:100% !important;
@@ -388,7 +388,7 @@ function renderProjects(){
         position:relative;
         display:flex;
         flex-direction:column;
-        align-self:flex-start !important;
+        align-self:stretch !important;
         gap:16px;
         padding:28px;
         background:#ffffff;
@@ -716,6 +716,7 @@ function renderProjects(){
           width:100% !important;
           max-width:100% !important;
           min-width:0 !important;
+          align-self:auto !important;
           padding:22px !important;
           border-radius:22px;
           gap:14px;
