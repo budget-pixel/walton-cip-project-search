@@ -190,14 +190,9 @@ const wcProjects = [
     category: "transportation",
     category_label: "Transportation",
     description: "This project proposes a new two (2) lane roadway from East Hewett Rd to Don Bishop Rd (via Mario Rd). Project intent it to include Complete Street elements, such as paths, sidewalks, trail or bike lanes.\n\nThis project is part of a phased approach to create an alternative roadway connection to US Hwy 98 and expand the transportation network system in an effort to provide alternate routes, improve safety response time for emergency vehicles, alleviate congested roadways, enhance transportation route redundancy, and improve mobility options in the area.",
-    budget: "$8.5M",
-    budget_value: 8500000,
+    budget: "$7.9M",
+    budget_value: 7900000,
     funding_by_year: [
-      {
-        year: "FY2027",
-        amount_value: 600000,
-        amount: "$600K"
-      },
       {
         year: "FY2031",
         amount_value: 7900000,
@@ -210,13 +205,14 @@ const wcProjects = [
     in_house_engineering_rows: [
       {
         description: "In-House Engineering",
+        year: "FY2027",
         amount_value: 600000,
         amount: "$600K"
       }
     ],
     funding: "Capital Projects Fund",
     district: "District 4",
-    target: "FY2027–FY2031",
+    target: "FY2031",
     status_text: "Design Phase",
     status_class: "wc-status-design"
   },
@@ -661,13 +657,13 @@ const wcProjects = [
     category: "transportation",
     category_label: "Transportation",
     description: "This project includes both the design and construction, in FY 27, for pedestrian improvements along CR 30A from Ventana Blvd to Blue Gulf.  Improvements include construction of a sidewalk along the northern portion of CR 30A.",
-    budget: "$230K",
-    budget_value: 229680,
+    budget: "$174K",
+    budget_value: 174000,
     funding_by_year: [
       {
         year: "FY2027",
-        amount_value: 229680,
-        amount: "$230K"
+        amount_value: 174000,
+        amount: "$174K"
       }
     ],
     has_in_house_engineering: true,
@@ -676,6 +672,7 @@ const wcProjects = [
     in_house_engineering_rows: [
       {
         description: "In-House Engineering",
+        year: "FY2027",
         amount_value: 55680,
         amount: "$56K"
       }
@@ -997,13 +994,13 @@ const wcProjects = [
     category: "transportation",
     category_label: "Transportation",
     description: "The project scope includes the design, permitting and construction of a northbound right turn lane at the East Bay Loop (CR 83A E) and SR 20 intersection in Freeport.  In- house design, permitting, surveying and CEI services are included with this project.",
-    budget: "$396K",
-    budget_value: 396000,
+    budget: "$300K",
+    budget_value: 300000,
     funding_by_year: [
       {
         year: "FY2027",
-        amount_value: 396000,
-        amount: "$396K"
+        amount_value: 300000,
+        amount: "$300K"
       }
     ],
     has_in_house_engineering: true,
@@ -1012,6 +1009,7 @@ const wcProjects = [
     in_house_engineering_rows: [
       {
         description: "In-House Engineering",
+        year: "FY2027",
         amount_value: 96000,
         amount: "$96K"
       }
@@ -1188,13 +1186,13 @@ const wcProjects = [
     category: "parks",
     category_label: "Parks",
     description: "The proposed project phase includes the construction of drainage improvements and pedestrian facilities in the Holiday Shores neighborhood area. Phase 2 project limits are Holiday Rd from US Hwy 98 to Forest Shore Drive and east along Forest Shore Drive to Paradise Park.",
-    budget: "$7.6M",
-    budget_value: 7560000,
+    budget: "$7M",
+    budget_value: 7000000,
     funding_by_year: [
       {
         year: "FY2027",
-        amount_value: 7560000,
-        amount: "$7.6M"
+        amount_value: 7000000,
+        amount: "$7M"
       }
     ],
     has_in_house_engineering: true,
@@ -1203,6 +1201,7 @@ const wcProjects = [
     in_house_engineering_rows: [
       {
         description: "In-House Engineering",
+        year: "FY2027",
         amount_value: 560000,
         amount: "$560K"
       }
@@ -1599,13 +1598,13 @@ const wcProjects = [
     category: "drainage",
     category_label: "Drainage",
     description: "This project includes asphalt paving of existing dirt roads and includes stormwater drainage improvements within existing limited rights-of-way.  No pedestrian features are included with these projects due to the constrained rights-of-way.",
-    budget: "$536K",
-    budget_value: 536400,
+    budget: "$450K",
+    budget_value: 450000,
     funding_by_year: [
       {
         year: "FY2027",
-        amount_value: 536400,
-        amount: "$536K"
+        amount_value: 450000,
+        amount: "$450K"
       }
     ],
     has_in_house_engineering: true,
@@ -1614,6 +1613,7 @@ const wcProjects = [
     in_house_engineering_rows: [
       {
         description: "In-House Engineering",
+        year: "FY2027",
         amount_value: 86400,
         amount: "$86K"
       }
@@ -1855,13 +1855,13 @@ const wcProjects = [
     category: "transportation",
     category_label: "Transportation",
     description: "N Orange Street Pedestrian Improvements is included in Walton County’s five-year Capital Improvement Plan.",
-    budget: "$449K",
-    budget_value: 448800,
+    budget: "$340K",
+    budget_value: 340000,
     funding_by_year: [
       {
         year: "FY2027",
-        amount_value: 448800,
-        amount: "$449K"
+        amount_value: 340000,
+        amount: "$340K"
       }
     ],
     has_in_house_engineering: true,
@@ -1870,6 +1870,7 @@ const wcProjects = [
     in_house_engineering_rows: [
       {
         description: "In-House Engineering",
+        year: "FY2027",
         amount_value: 108800,
         amount: "$109K"
       }
@@ -2726,13 +2727,13 @@ const wcProjects = [
     category: "parks",
     category_label: "Parks",
     description: "This project includes the construction of a sidewalk along South Orange Street from US Hwy 98 to Inlet Beach Regional Access Park.",
-    budget: "$243K",
-    budget_value: 243200,
+    budget: "$200K",
+    budget_value: 200000,
     funding_by_year: [
       {
         year: "FY2027",
-        amount_value: 243200,
-        amount: "$243K"
+        amount_value: 200000,
+        amount: "$200K"
       }
     ],
     has_in_house_engineering: true,
@@ -2741,6 +2742,7 @@ const wcProjects = [
     in_house_engineering_rows: [
       {
         description: "In-House Engineering",
+        year: "FY2027",
         amount_value: 43200,
         amount: "$43K"
       }
@@ -2767,13 +2769,13 @@ const wcProjects = [
     category: "transportation",
     category_label: "Transportation",
     description: "This project proposes a new two (2) lane roadway from Sugar Drive to Thompson Rd. Project intent it to include Complete Street elements, such as paths, sidewalks, trail or bike lanes.",
-    budget: "$3.4M",
-    budget_value: 3400000,
+    budget: "$3.1M",
+    budget_value: 3100000,
     funding_by_year: [
       {
         year: "FY2027",
-        amount_value: 900000,
-        amount: "$900K"
+        amount_value: 600000,
+        amount: "$600K"
       },
       {
         year: "FY2030",
@@ -2787,6 +2789,7 @@ const wcProjects = [
     in_house_engineering_rows: [
       {
         description: "In-House Engineering",
+        year: "FY2027",
         amount_value: 300000,
         amount: "$300K"
       }
