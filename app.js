@@ -83,6 +83,10 @@ function renderProjectCard(project){
   const description = String(project.description || "");
   const statusClass = project.status_class || getStatusClass(project.status_text);
   const departmentLabel = project.dept || project.department || project.category_label || "Department";
+  const staffDeliveryValue =
+    project.in_house_engineering_value_formatted ||
+    project.in_house_engineering_value ||
+    "";
 
   return `
     <article class="wc-project-card" data-department="${escapeHtml(departmentLabel)}" data-target="${escapeHtml(String(project.target || "").toLowerCase())}" data-project-url="${escapeHtml(buildProjectUrl(project))}" tabindex="0" role="link" aria-label="View details for ${escapeHtml(project.title)}">
@@ -122,8 +126,18 @@ function renderProjectCard(project){
 
       </div>
 
-      <div class="wc-project-status ${escapeHtml(statusClass)}">
-        ${escapeHtml(project.status_text)}
+      <div class="wc-project-card-badges">
+
+        <div class="wc-project-status ${escapeHtml(statusClass)}">
+          ${escapeHtml(project.status_text)}
+        </div>
+
+        ${project.has_in_house_engineering ? `
+          <div class="wc-project-card-badge">
+            County Staff Delivery${staffDeliveryValue ? ` · ${escapeHtml(staffDeliveryValue)}` : ""}
+          </div>
+        ` : ""}
+
       </div>
 
     </article>
@@ -562,6 +576,35 @@ function renderProjects(){
         background:currentColor;
       }
 
+      .wc-project-card-badges{
+        display:flex;
+        flex-wrap:wrap;
+        gap:10px;
+        margin-top:-2px;
+      }
+
+      .wc-project-card-badge{
+        display:inline-flex;
+        align-items:center;
+        gap:7px;
+        width:max-content;
+        padding:9px 13px;
+        border-radius:999px;
+        background:rgba(0,98,49,0.10);
+        color:#006231;
+        border:1px solid rgba(0,98,49,0.14);
+        font-size:12px;
+        font-weight:800;
+        letter-spacing:.04em;
+        text-transform:uppercase;
+      }
+
+      .wc-project-card-badge::before{
+        content:"✔";
+        font-size:11px;
+        line-height:1;
+      }
+
       .wc-status-planning{ background:rgba(209,190,120,0.18); color:#8b6d12; }
       .wc-status-design{ background:rgba(9,127,187,0.12); color:#0b5f8a; }
       .wc-status-construction{ background:rgba(0,98,49,0.12); color:#006231; }
@@ -774,6 +817,12 @@ function renderProjects(){
           text-align:center;
           padding:11px 14px;
           font-size:12px;
+        }
+
+        .wc-project-card-badge{
+          width:100%;
+          justify-content:center;
+          text-align:center;
         }
 
         .wc-project-load-more{
