@@ -20,7 +20,7 @@ function resetVisibleLimit(){
 }
 
 const filters = {
-  category: "all",
+  department: "all",
   year: "all",
   fund: "all",
   search: ""
@@ -37,7 +37,7 @@ function escapeHtml(value){
 
 function getFilteredProjects(){
   return wcProjects.filter(project => {
-    const category = String(project.category || "").toLowerCase();
+    const department = String(project.dept || project.department || "").toLowerCase();
     const target = String(project.target || "").toLowerCase();
     const funding = String(project.funding || "").toLowerCase();
 
@@ -58,9 +58,9 @@ function getFilteredProjects(){
       !filters.search ||
       content.includes(filters.search);
 
-    const matchesCategory =
-      filters.category === "all" ||
-      category.includes(filters.category);
+    const matchesDepartment =
+      filters.department === "all" ||
+      department.includes(filters.department);
 
     const matchesYear =
       filters.year === "all" ||
@@ -72,7 +72,7 @@ function getFilteredProjects(){
 
     return (
       matchesSearch &&
-      matchesCategory &&
+      matchesDepartment &&
       matchesYear &&
       matchesFund
     );
@@ -82,13 +82,14 @@ function getFilteredProjects(){
 function renderProjectCard(project){
   const description = String(project.description || "");
   const statusClass = project.status_class || getStatusClass(project.status_text);
+  const departmentLabel = project.dept || project.department || project.category_label || "Department";
 
   return `
-    <article class="wc-project-card" data-category="${escapeHtml(project.category)}" data-target="${escapeHtml(String(project.target || "").toLowerCase())}" data-project-url="${escapeHtml(buildProjectUrl(project))}" tabindex="0" role="link" aria-label="View details for ${escapeHtml(project.title)}">
+    <article class="wc-project-card" data-department="${escapeHtml(departmentLabel)}" data-target="${escapeHtml(String(project.target || "").toLowerCase())}" data-project-url="${escapeHtml(buildProjectUrl(project))}" tabindex="0" role="link" aria-label="View details for ${escapeHtml(project.title)}">
 
       <div class="wc-project-card-top">
         <h3>${escapeHtml(project.title)}</h3>
-        <span class="wc-project-category">${escapeHtml(project.category_label)}</span>
+        <span class="wc-project-category">${escapeHtml(departmentLabel)}</span>
       </div>
 
       <div class="wc-project-description">
@@ -840,15 +841,14 @@ function renderProjects(){
 
           <div class="wc-project-filter-group">
 
-            <div class="wc-project-filter-set" data-filter-type="category">
-              <span class="wc-project-filter-label">Category</span>
-              <button class="wc-project-filter ${filters.category === "all" ? "active" : ""}" data-filter-type="category" data-filter="all">All</button>
-              <button class="wc-project-filter ${filters.category === "transportation" ? "active" : ""}" data-filter-type="category" data-filter="transportation">Transportation</button>
-              <button class="wc-project-filter ${filters.category === "public safety" ? "active" : ""}" data-filter-type="category" data-filter="public safety">Public Safety</button>
-              <button class="wc-project-filter ${filters.category === "drainage" ? "active" : ""}" data-filter-type="category" data-filter="drainage">Drainage</button>
-              <button class="wc-project-filter ${filters.category === "parks" ? "active" : ""}" data-filter-type="category" data-filter="parks">Parks</button>
-              <button class="wc-project-filter ${filters.category === "facilities" ? "active" : ""}" data-filter-type="category" data-filter="facilities">Facilities</button>
-              <button class="wc-project-filter ${filters.category === "tourism" ? "active" : ""}" data-filter-type="category" data-filter="tourism">Tourism</button>
+            <div class="wc-project-filter-set" data-filter-type="department">
+              <span class="wc-project-filter-label">Department</span>
+              <button class="wc-project-filter ${filters.department === "all" ? "active" : ""}" data-filter-type="department" data-filter="all">All</button>
+              <button class="wc-project-filter ${filters.department === "public works" ? "active" : ""}" data-filter-type="department" data-filter="public works">Public Works/Engineering</button>
+              <button class="wc-project-filter ${filters.department === "beach operations" ? "active" : ""}" data-filter-type="department" data-filter="beach operations">Beach Operations</button>
+              <button class="wc-project-filter ${filters.department === "sheriff" ? "active" : ""}" data-filter-type="department" data-filter="sheriff">Sheriff</button>
+              <button class="wc-project-filter ${filters.department === "administration" ? "active" : ""}" data-filter-type="department" data-filter="administration">Administration</button>
+              <button class="wc-project-filter ${filters.department === "building construction" ? "active" : ""}" data-filter-type="department" data-filter="building construction">Building Construction & Maintenance</button>
             </div>
 
             <div class="wc-project-filter-set" data-filter-type="year">
