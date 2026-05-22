@@ -253,6 +253,75 @@
     line-height:1.2;
   }
 
+  .wc-project-staff-value{
+    padding:26px;
+    border-radius:22px;
+    background:linear-gradient(135deg,#006231,#007a3d);
+    border:1px solid #006231;
+    color:#ffffff;
+    box-shadow:0 16px 34px rgba(0,98,49,0.22);
+  }
+
+  .wc-project-staff-value span{
+    display:block;
+    margin-bottom:8px;
+    color:rgba(255,255,255,0.72);
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+
+  .wc-project-staff-value strong{
+    display:block;
+    color:#ffffff;
+    font-size:34px;
+    line-height:1.1;
+    margin-bottom:10px;
+  }
+
+  .wc-project-staff-value p{
+    margin:0;
+    color:rgba(255,255,255,0.86);
+    font-size:15px;
+    line-height:1.55;
+  }
+
+  .wc-project-staff-rows{
+    margin-top:18px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .wc-project-staff-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:12px 14px;
+    border-radius:14px;
+    background:rgba(255,255,255,0.12);
+    border:1px solid rgba(255,255,255,0.16);
+  }
+
+  .wc-project-staff-row span{
+    margin:0;
+    color:rgba(255,255,255,0.74);
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+
+  .wc-project-staff-row strong{
+    margin:0;
+    color:#ffffff;
+    font-size:14px;
+    line-height:1.35;
+    text-align:right;
+  }
+
   .wc-project-year-breakdown{
     display:flex;
     flex-direction:column;
@@ -452,6 +521,16 @@
       text-align:left;
     }
 
+    .wc-project-staff-row{
+      display:block;
+    }
+
+    .wc-project-staff-row strong{
+      display:block;
+      margin-top:6px;
+      text-align:left;
+    }
+
     .wc-project-metrics{
       grid-template-columns:1fr;
     }
@@ -564,6 +643,37 @@ function renderFundingBreakdown(project){
   `;
 }
 
+function renderStaffDeliveryValue(project){
+  if(!project.has_in_house_engineering){
+    return "";
+  }
+
+  const value = project.in_house_engineering_value_formatted || displayValue(project.in_house_engineering_value);
+  const rows = Array.isArray(project.in_house_engineering_rows) ? project.in_house_engineering_rows : [];
+
+  return `
+    <section class="wc-project-panel">
+      <h2>County Staff Delivery Value</h2>
+      <div class="wc-project-staff-value">
+        <span>Estimated In-House Engineering Value</span>
+        <strong>${displayValue(value)}</strong>
+        <p>Estimated engineering value provided by Walton County staff in lieu of external consultant services.</p>
+
+        ${rows.length ? `
+          <div class="wc-project-staff-rows">
+            ${rows.map(row => `
+              <div class="wc-project-staff-row">
+                <span>${displayValue(row.description,"In-House Engineering")}</span>
+                <strong>${displayValue(row.amount)}</strong>
+              </div>
+            `).join("")}
+          </div>
+        ` : ""}
+      </div>
+    </section>
+  `;
+}
+
 const params = new URLSearchParams(window.location.search);
 
 const slug = params.get("project");
@@ -670,6 +780,8 @@ if(!project){
             ${renderFundingBreakdown(project)}
           </section>
 
+          ${renderStaffDeliveryValue(project)}
+
         </div>
 
         <div class="wc-project-stack">
@@ -679,6 +791,7 @@ if(!project){
             <div class="wc-project-list">
               ${renderListItem("Category", category)}
               ${renderListItem("Department", department)}
+              ${renderListItem("Project Manager", project.project_manager)}
               ${renderListItem("District", district)}
               ${renderListItem("Location", location)}
             </div>
@@ -690,6 +803,14 @@ if(!project){
               <div class="wc-project-timeline-item">
                 <span>Status</span>
                 <strong>${displayValue(statusText)}</strong>
+              </div>
+              <div class="wc-project-timeline-item">
+                <span>Start Date</span>
+                <strong>${displayValue(project.start_date)}</strong>
+              </div>
+              <div class="wc-project-timeline-item">
+                <span>Estimated Completion</span>
+                <strong>${displayValue(project.estimated_completion_date)}</strong>
               </div>
               <div class="wc-project-timeline-item">
                 <span>Target Year</span>
