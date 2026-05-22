@@ -100,7 +100,7 @@
     background:#ffffff;
     border-radius:28px;
     padding:42px;
-    margin-bottom:32px;
+    margin-bottom:24px;
     border:1px solid rgba(209,190,120,0.34);
     box-shadow:
       0 18px 44px rgba(0,98,49,0.08),
@@ -108,7 +108,7 @@
   }
 
   .wc-project-title{
-    margin:0 0 18px 0;
+    margin:0;
     font-size:52px;
     line-height:1.05;
     font-weight:800;
@@ -126,6 +126,8 @@
     font-size:17px;
     line-height:1.75;
     color:#475467;
+    text-align:justify;
+    text-justify:inter-word;
   }
 
   .wc-project-kicker{
@@ -270,6 +272,10 @@
     font-weight:700;
     letter-spacing:.08em;
     text-transform:uppercase;
+  }
+
+  .wc-project-staff-value .wc-project-staff-label{
+    margin-bottom:10px;
   }
 
   .wc-project-staff-value strong{
@@ -683,17 +689,17 @@ function renderStaffDeliveryValue(project){
 
   return `
     <section class="wc-project-panel">
-      <h2>County Staff Delivery Value</h2>
+      <h2>In-House Engineering</h2>
       <div class="wc-project-staff-value">
-        <span>Estimated In-House Engineering Value</span>
+        <span class="wc-project-staff-label">County Staff Delivery Value</span>
         <strong>${displayValue(value)}</strong>
-        <p>Estimated engineering value provided by Walton County staff in lieu of external consultant services.</p>
+        <p>Engineering services for this project are being delivered by Walton County staff rather than external consultants.</p>
 
         ${rows.length ? `
           <div class="wc-project-staff-rows">
             ${rows.map(row => `
               <div class="wc-project-staff-row">
-                <span>${displayValue(row.description,"In-House Engineering")}</span>
+                <span>${displayValue(row.year,"Fiscal Year")}</span>
                 <strong>${displayValue(row.amount)}</strong>
               </div>
             `).join("")}
@@ -710,18 +716,12 @@ function renderOverviewBadges(project){
   if(project.has_in_house_engineering){
     badges.push(`
       <div class="wc-project-highlight-badge">
-        County Staff Delivery Value · ${displayValue(project.in_house_engineering_value_formatted || project.in_house_engineering_value)}
+        In-House Engineering · ${displayValue(project.in_house_engineering_value_formatted || project.in_house_engineering_value)}
       </div>
     `);
   }
 
-  if(project.priority){
-    badges.push(`
-      <div class="wc-project-highlight-badge">
-        Priority · ${displayValue(project.priority)}
-      </div>
-    `);
-  }
+  // Removed Priority badge block
 
   if(!badges.length){
     return "";
@@ -775,46 +775,10 @@ if(!project){
       </div>
 
       <section class="wc-project-hero">
-
-        <div class="wc-project-hero-top">
-          <div class="wc-project-category">
-            ${displayValue(category)}
-          </div>
-
-          <div class="wc-project-status ${statusClass}">
-            ${displayValue(statusText)}
-          </div>
-
-          ${renderOverviewBadges(project)}
-        </div>
-
         <h1 class="wc-project-title">
           ${displayValue(title)}
         </h1>
-
       </section>
-
-      <div class="wc-project-kicker">
-        <div class="wc-project-kicker-item">
-          <span>Budget</span>
-          <strong>${displayValue(budget)}</strong>
-        </div>
-
-        <div class="wc-project-kicker-item">
-          <span>Funding</span>
-          <strong>${displayValue(funding)}</strong>
-        </div>
-
-        <div class="wc-project-kicker-item">
-          <span>Department</span>
-          <strong>${displayValue(department)}</strong>
-        </div>
-
-        <div class="wc-project-kicker-item">
-          <span>Target Year</span>
-          <strong>${displayValue(target)}</strong>
-        </div>
-      </div>
 
       <div class="wc-project-grid">
 
@@ -835,7 +799,6 @@ if(!project){
 
             <div class="wc-project-list">
               ${renderListItem("Funding Source", funding)}
-              ${renderListItem("Fiscal Year", fiscalYear)}
               ${renderListItem("Target Year", target)}
             </div>
 
@@ -851,7 +814,7 @@ if(!project){
           <section class="wc-project-panel">
             <h2>Project Details</h2>
             <div class="wc-project-list">
-              ${renderListItem("Category", category)}
+              ${renderListItem("Project Phase", statusText)}
               ${renderListItem("Department", department)}
               ${renderListItem("Project Manager", project.project_manager)}
               ${renderListItem("District", district)}
@@ -877,10 +840,6 @@ if(!project){
               <div class="wc-project-timeline-item">
                 <span>Target Year</span>
                 <strong>${displayValue(target)}</strong>
-              </div>
-              <div class="wc-project-timeline-item">
-                <span>Fiscal Year</span>
-                <strong>${displayValue(fiscalYear)}</strong>
               </div>
             </div>
           </section>
