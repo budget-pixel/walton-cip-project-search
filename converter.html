@@ -101,19 +101,21 @@
       return "FY" + fiscalYear;
     }
 
-    function getProjectAmount(row){
+    function getProjectAmount(row, excludedAmount){
+      const exclude = Number(excludedAmount || 0);
+
       const explicitTotal =
         parseAmount(row["Total"]) ||
         parseAmount(row["Total Amount"]) ||
         parseAmount(row["Project Total"]);
 
       if(explicitTotal){
-        return explicitTotal;
+        return Math.max(0, explicitTotal - exclude);
       }
 
-      return getBudgetAmountColumns(row).reduce(function(sum, key){
+      return Math.max(0, getBudgetAmountColumns(row).reduce(function(sum, key){
         return sum + parseAmount(row[key]);
-      }, 0);
+      }, 0) - exclude);
     }
 
     function getTargetYears(row){
@@ -136,13 +138,26 @@
       return clean(row["Budget Period"] || row["Target Year"] || row["Fiscal Year"] || "FY2027");
     }
 
-    function getFundingByYear(row){
+    function getFundingByYear(row, excludedRows){
+      const exclusionsByYear = {};
+
+      (excludedRows || []).forEach(function(item){
+        if(!item.year){
+          return;
+        }
+
+        exclusionsByYear[item.year] = (exclusionsByYear[item.year] || 0) + Number(item.amount_value || 0);
+      });
+
       return getBudgetAmountColumns(row)
         .map(function(key){
+          const year = periodColumnToFiscalYear(key);
+          const amountValue = Math.max(0, parseAmount(row[key]) - (exclusionsByYear[year] || 0));
+
           return {
-            year: periodColumnToFiscalYear(key),
-            amount_value: parseAmount(row[key]),
-            amount: money(parseAmount(row[key]))
+            year,
+            amount_value: amountValue,
+            amount: money(amountValue)
           };
         })
         .filter(function(item){
@@ -288,6 +303,7 @@
           inHouseEngineeringByProposal[proposalKey].value += amount;
           inHouseEngineeringByProposal[proposalKey].rows.push({
             description,
+            year: getTargetYears(row),
             amount_value: amount,
             amount: money(amount)
           });
@@ -331,10 +347,14 @@
             const district = clean(row["Commissioner District"] || row["commissioner district"] || row["Commissioner district"] || row["District"] || "Countywide");
             const description = clean(row["Project Narrative"] || row["project narrative"] || row["Description"] || row["Project Description"] || row["Justification"] || `${title} is included in Walton County’s five-year Capital Improvement Plan.`);
 
-            const amount = getProjectAmount(row);
-            const target = getTargetYears(row);
-            const fundingByYear = getFundingByYear(row);
             const inHouseEngineering = inHouseEngineeringByProposal[proposalName] || { value: 0, rows: [] };
+            const amount = getProjectAmount(row, inHouseEngineering.value);
+            const fundingByYear = getFundingByYear(row, inHouseEngineering.rows);
+            const target = fundingByYear.length === 1
+              ? fundingByYear[0].year
+              : fundingByYear.length > 1
+                ? fundingByYear[0].year + "–" + fundingByYear[fundingByYear.length - 1].year
+                : getTargetYears(row);
 
             const category = categoryFromText(`${title} ${dept} ${description}`);
             const status = statusFromPhase(phase);
