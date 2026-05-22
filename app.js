@@ -449,7 +449,7 @@ function renderProjects(){
       }
 
       .wc-project-card.has-overflow .wc-project-description{
-        max-height:104px;
+        max-height:78px;
         overflow:hidden;
       }
 
@@ -748,7 +748,7 @@ function renderProjects(){
         }
 
         .wc-project-card.has-overflow .wc-project-description{
-          max-height:116px;
+          max-height:96px;
         }
 
         .wc-project-metrics{
@@ -950,7 +950,7 @@ function renderProjects(){
 
     description.style.maxHeight = "none";
 
-    if(description.scrollHeight > 104){
+    if(description.scrollHeight > 78){
       card.classList.add("has-overflow");
     }else{
       card.classList.remove("has-overflow");
