@@ -26,26 +26,46 @@
     padding:54px 24px 80px;
   }
 
-  .wc-project-back{
+  .wc-project-actions{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    flex-wrap:wrap;
+    margin-bottom:28px;
+  }
+
+  .wc-project-back,
+  .wc-project-full-search{
     display:inline-flex;
     align-items:center;
+    justify-content:center;
     gap:8px;
-    margin-bottom:28px;
-    color:#006231;
+    min-height:42px;
+    padding:10px 16px;
+    border-radius:999px;
     text-decoration:none;
     font-size:14px;
     font-weight:700;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
   }
 
-  .wc-project-hero{
+  .wc-project-back{
+    color:#006231;
     background:#ffffff;
-    border-radius:28px;
-    padding:42px;
-    margin-bottom:26px;
-    border:1px solid rgba(209,190,120,0.34);
-    box-shadow:
-      0 18px 44px rgba(0,98,49,0.08),
-      0 6px 14px rgba(36,52,77,0.06);
+    border:1px solid rgba(0,98,49,0.14);
+  }
+
+  .wc-project-full-search{
+    color:#ffffff;
+    background:#006231;
+    border:1px solid #006231;
+    box-shadow:0 8px 18px rgba(0,98,49,0.16);
+  }
+
+  .wc-project-back:hover,
+  .wc-project-full-search:hover{
+    transform:translateY(-1px);
   }
 
   .wc-project-category{
@@ -63,8 +83,21 @@
     margin-bottom:18px;
   }
 
+  .wc-project-hero-top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+  }
+
+  .wc-project-hero-top .wc-project-category{
+    margin-bottom:0;
+  }
+
   .wc-project-title{
-    margin:0 0 16px 0;
+    margin:0 0 18px 0;
     font-size:52px;
     line-height:1.05;
     font-weight:800;
@@ -78,9 +111,46 @@
     max-width:920px;
   }
 
+  .wc-project-overview-text{
+    font-size:17px;
+    line-height:1.75;
+    color:#475467;
+  }
+
+  .wc-project-kicker{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:14px;
+    margin-top:28px;
+  }
+
+  .wc-project-kicker-item{
+    padding:16px;
+    border-radius:18px;
+    background:#f8faf8;
+    border:1px solid rgba(0,98,49,0.08);
+  }
+
+  .wc-project-kicker-item span{
+    display:block;
+    margin-bottom:7px;
+    color:#667085;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+
+  .wc-project-kicker-item strong{
+    display:block;
+    color:#172033;
+    font-size:15px;
+    line-height:1.35;
+  }
+
   .wc-project-grid{
     display:grid;
-    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-columns:minmax(0,1.25fr) minmax(320px,.75fr);
     gap:24px;
   }
 
@@ -100,20 +170,59 @@
     color:#172033;
   }
 
-  .wc-project-metrics{
-    display:grid;
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:16px;
+  .wc-project-panel p{
+    margin:0;
   }
 
-  .wc-project-metric{
-    padding:18px;
-    border-radius:18px;
-    background:#f8faf8;
-    border:1px solid rgba(0,98,49,0.08);
+  .wc-project-stack{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
   }
 
-  .wc-project-metric span{
+  .wc-project-list{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+
+  .wc-project-list-item{
+    display:flex;
+    justify-content:space-between;
+    gap:18px;
+    padding:15px 0;
+    border-bottom:1px solid rgba(23,32,51,0.08);
+  }
+
+  .wc-project-list-item:last-child{
+    border-bottom:0;
+    padding-bottom:0;
+  }
+
+  .wc-project-list-item span{
+    color:#667085;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+
+  .wc-project-list-item strong{
+    color:#172033;
+    font-size:15px;
+    line-height:1.4;
+    text-align:right;
+  }
+
+  .wc-project-budget-highlight{
+    padding:22px;
+    border-radius:20px;
+    background:linear-gradient(135deg, rgba(0,98,49,0.10), rgba(209,190,120,0.16));
+    border:1px solid rgba(0,98,49,0.10);
+    margin-bottom:18px;
+  }
+
+  .wc-project-budget-highlight span{
     display:block;
     margin-bottom:8px;
     color:#667085;
@@ -123,11 +232,11 @@
     text-transform:uppercase;
   }
 
-  .wc-project-metric strong{
+  .wc-project-budget-highlight strong{
     display:block;
-    font-size:20px;
-    line-height:1.3;
     color:#172033;
+    font-size:30px;
+    line-height:1.2;
   }
 
   .wc-project-status{
@@ -176,6 +285,57 @@
     padding:120px 20px;
   }
 
+  .wc-project-timeline{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    padding-left:22px;
+  }
+
+  .wc-project-timeline::before{
+    content:"";
+    position:absolute;
+    top:5px;
+    bottom:5px;
+    left:5px;
+    width:2px;
+    background:rgba(0,98,49,0.16);
+  }
+
+  .wc-project-timeline-item{
+    position:relative;
+  }
+
+  .wc-project-timeline-item::before{
+    content:"";
+    position:absolute;
+    top:5px;
+    left:-22px;
+    width:12px;
+    height:12px;
+    border-radius:999px;
+    background:#006231;
+    box-shadow:0 0 0 4px rgba(0,98,49,0.12);
+  }
+
+  .wc-project-timeline-item span{
+    display:block;
+    margin-bottom:5px;
+    color:#667085;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+
+  .wc-project-timeline-item strong{
+    display:block;
+    color:#172033;
+    font-size:15px;
+    line-height:1.45;
+  }
+
   @media(max-width:900px){
 
     .wc-project-grid{
@@ -184,6 +344,10 @@
 
     .wc-project-title{
       font-size:40px;
+    }
+
+    .wc-project-kicker{
+      grid-template-columns:repeat(2,minmax(0,1fr));
     }
 
   }
@@ -208,6 +372,29 @@
       font-size:16px;
     }
 
+    .wc-project-actions{
+      align-items:stretch;
+    }
+
+    .wc-project-back,
+    .wc-project-full-search{
+      width:100%;
+    }
+
+    .wc-project-kicker{
+      grid-template-columns:1fr;
+    }
+
+    .wc-project-list-item{
+      display:block;
+    }
+
+    .wc-project-list-item strong{
+      display:block;
+      margin-top:6px;
+      text-align:left;
+    }
+
     .wc-project-metrics{
       grid-template-columns:1fr;
     }
@@ -227,11 +414,50 @@
 
 const app = document.getElementById("app");
 
+function escapeHtml(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function displayValue(value, fallback = "Not specified"){
+  if(value === null || value === undefined || String(value).trim() === ""){
+    return fallback;
+  }
+  return escapeHtml(value);
+}
+
+function getProjectValue(project, keys, fallback = "Not specified"){
+  for(const key of keys){
+    if(project[key] !== null && project[key] !== undefined && String(project[key]).trim() !== ""){
+      return project[key];
+    }
+  }
+  return fallback;
+}
+
+function buildBackHref(){
+  return "./?view=all";
+}
+
+function renderListItem(label, value){
+  return `
+    <div class="wc-project-list-item">
+      <span>${escapeHtml(label)}</span>
+      <strong>${displayValue(value)}</strong>
+    </div>
+  `;
+}
+
 const params = new URLSearchParams(window.location.search);
 
 const slug = params.get("project");
 
 const project = wcProjects.find(p => p.slug === slug);
+const backHref = buildBackHref();
 
 if(!project){
 
@@ -239,86 +465,137 @@ if(!project){
     <div class="wc-project-not-found">
       <h1>Project Not Found</h1>
       <p>The requested project could not be located.</p>
+      <p><a class="wc-project-back" href="${backHref}">← Back to Project Index</a></p>
     </div>
   `;
 
 }else{
 
+  const category = getProjectValue(project,["category_label","category"]);
+  const title = getProjectValue(project,["title"],"Untitled Project");
+  const description = getProjectValue(project,["description","overview","summary"],"No project description is currently available.");
+  const statusText = getProjectValue(project,["status_text","status"],"Status not specified");
+  const statusClass = displayValue(project.status_class,"wc-status-planning");
+  const budget = getProjectValue(project,["budget","project_budget","total_budget","cost"]);
+  const funding = getProjectValue(project,["funding","funding_source","source"]);
+  const district = getProjectValue(project,["district","commission_district"]);
+  const target = getProjectValue(project,["target","target_year","year","fiscal_year"]);
+  const department = getProjectValue(project,["department","related_department","dept"]);
+  const location = getProjectValue(project,["location","project_location","address"]);
+  const fiscalYear = getProjectValue(project,["fiscal_year","fy","year"]);
+
   app.innerHTML = `
 
     <main class="wc-project-page">
 
-      <a class="wc-project-back"
-         href="./?view=all">
-         ← Back to Project Index
-      </a>
+      <div class="wc-project-actions">
+        <a class="wc-project-back" href="${backHref}">← Back to Project Index</a>
+        <a class="wc-project-full-search" href="${backHref}">View Full Project Search</a>
+      </div>
 
       <section class="wc-project-hero">
 
-        <div class="wc-project-category">
-          ${project.category_label}
+        <div class="wc-project-hero-top">
+          <div class="wc-project-category">
+            ${displayValue(category)}
+          </div>
+
+          <div class="wc-project-status ${statusClass}">
+            ${displayValue(statusText)}
+          </div>
         </div>
 
         <h1 class="wc-project-title">
-          ${project.title}
+          ${displayValue(title)}
         </h1>
 
         <div class="wc-project-description">
-          ${project.description}
+          ${displayValue(description)}
         </div>
 
-        <div class="wc-project-status ${project.status_class}">
-          ${project.status_text}
+        <div class="wc-project-kicker">
+          <div class="wc-project-kicker-item">
+            <span>Budget</span>
+            <strong>${displayValue(budget)}</strong>
+          </div>
+
+          <div class="wc-project-kicker-item">
+            <span>Funding</span>
+            <strong>${displayValue(funding)}</strong>
+          </div>
+
+          <div class="wc-project-kicker-item">
+            <span>Department</span>
+            <strong>${displayValue(department)}</strong>
+          </div>
+
+          <div class="wc-project-kicker-item">
+            <span>Target Year</span>
+            <strong>${displayValue(target)}</strong>
+          </div>
         </div>
 
       </section>
 
       <div class="wc-project-grid">
 
-        <section class="wc-project-panel">
+        <div class="wc-project-stack">
 
-          <h2>Project Information</h2>
+          <section class="wc-project-panel">
+            <h2>Project Overview</h2>
+            <p class="wc-project-overview-text">${displayValue(description)}</p>
+          </section>
 
-          <div class="wc-project-metrics">
+          <section class="wc-project-panel">
+            <h2>Budget & Funding Summary</h2>
 
-            <div class="wc-project-metric">
+            <div class="wc-project-budget-highlight">
               <span>Project Budget</span>
-              <strong>${project.budget}</strong>
+              <strong>${displayValue(budget)}</strong>
             </div>
 
-            <div class="wc-project-metric">
-              <span>Funding Source</span>
-              <strong>${project.funding}</strong>
+            <div class="wc-project-list">
+              ${renderListItem("Funding Source", funding)}
+              ${renderListItem("Fiscal Year", fiscalYear)}
+              ${renderListItem("Target Year", target)}
             </div>
+          </section>
 
-            <div class="wc-project-metric">
-              <span>District</span>
-              <strong>${project.district}</strong>
+        </div>
+
+        <div class="wc-project-stack">
+
+          <section class="wc-project-panel">
+            <h2>Project Details</h2>
+            <div class="wc-project-list">
+              ${renderListItem("Category", category)}
+              ${renderListItem("Department", department)}
+              ${renderListItem("District", district)}
+              ${renderListItem("Location", location)}
             </div>
+          </section>
 
-            <div class="wc-project-metric">
-              <span>Target Year</span>
-              <strong>${project.target}</strong>
+          <section class="wc-project-panel">
+            <h2>Status & Timeline</h2>
+            <div class="wc-project-timeline">
+              <div class="wc-project-timeline-item">
+                <span>Status</span>
+                <strong>${displayValue(statusText)}</strong>
+              </div>
+              <div class="wc-project-timeline-item">
+                <span>Target Year</span>
+                <strong>${displayValue(target)}</strong>
+              </div>
+              <div class="wc-project-timeline-item">
+                <span>Fiscal Year</span>
+                <strong>${displayValue(fiscalYear)}</strong>
+              </div>
             </div>
+          </section>
 
-          </div>
-
-        </section>
-
-        <section class="wc-project-panel">
-
-          <h2>Project Summary</h2>
-
-          <div class="wc-project-description">
-            ${project.description}
-          </div>
-
-        </section>
+        </div>
 
       </div>
-
-    </main>
-
   `;
 
 }
