@@ -915,7 +915,7 @@ function renderProjects(){
               <button class="wc-project-filter ${filters.fund === "transportation fund" ? "active" : ""}" data-filter-type="fund" data-filter="transportation fund">Transportation</button>
               <button class="wc-project-filter ${filters.fund === "tourist development fund" ? "active" : ""}" data-filter-type="fund" data-filter="tourist development fund">Tourist Development</button>
               <button class="wc-project-filter ${filters.fund === "grant" ? "active" : ""}" data-filter-type="fund" data-filter="grant">Grant Funded</button>
-              <button class="wc-project-filter ${filters.fund === "public works capital" ? "active" : ""}" data-filter-type="fund" data-filter="public works capital">Public Works Capital</button>
+              <button class="wc-project-filter ${filters.fund === "sheriff" ? "active" : ""}" data-filter-type="fund" data-filter="sheriff">Sheriff</button>
               <button class="wc-project-filter ${filters.fund === "tbd" ? "active" : ""}" data-filter-type="fund" data-filter="tbd">TBD</button>
             </div>
 
