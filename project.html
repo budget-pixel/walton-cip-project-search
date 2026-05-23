@@ -688,7 +688,27 @@ function normalizeProjectImages(project){
     }];
   }
 
+  if(project.slug){
+    return [{
+      url:`images/${project.slug}.jpg`,
+      caption:"Project image"
+    }];
+  }
+
   return [];
+}
+
+function handleProjectImageError(imageElement){
+  const imageCard = imageElement.closest(".wc-project-image-card");
+  const imagePanel = imageElement.closest(".wc-project-panel");
+
+  if(imageCard){
+    imageCard.remove();
+  }
+
+  if(imagePanel && !imagePanel.querySelector(".wc-project-image-card")){
+    imagePanel.remove();
+  }
 }
 
 function renderProjectImages(project){
@@ -704,7 +724,7 @@ function renderProjectImages(project){
       <div class="wc-project-image-grid">
         ${images.map(image => `
           <figure class="wc-project-image-card">
-            <img src="${escapeHtml(image.url)}" alt="${escapeHtml(image.caption || project.title || "Project image")}">
+            <img src="${escapeHtml(image.url)}" alt="${escapeHtml(image.caption || project.title || "Project image")}" loading="lazy" decoding="async" onerror="handleProjectImageError(this)">
             ${image.caption ? `<figcaption>${escapeHtml(image.caption)}</figcaption>` : ""}
           </figure>
         `).join("")}
