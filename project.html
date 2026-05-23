@@ -751,7 +751,7 @@ function displayBudgetValue(value, fallback = "Not specified"){
     return displayValue(value, fallback);
   }
 
-  return escapeHtml(Math.round(amount).toLocaleString("en-US"));
+  return escapeHtml("$" + Math.round(amount).toLocaleString("en-US"));
 }
 
 function hasDisplayValue(value){
