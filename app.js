@@ -248,6 +248,36 @@ function renderProjects(){
         line-height:1.7;
       }
 
+      .wc-project-full-search-row{
+        display:flex;
+        justify-content:center;
+        margin:24px 0 26px 0;
+      }
+
+      .wc-project-full-search-link{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        min-height:50px;
+        padding:0 24px;
+        border-radius:999px;
+        background:linear-gradient(135deg,#006231 0%,#0b7d45 100%);
+        color:#ffffff;
+        font-family:Arial, Helvetica, sans-serif;
+        font-size:14px;
+        font-weight:800;
+        letter-spacing:.08em;
+        text-transform:uppercase;
+        text-decoration:none;
+        box-shadow:0 10px 24px rgba(0,98,49,0.16);
+        transition:transform .22s ease, box-shadow .22s ease;
+      }
+
+      .wc-project-full-search-link:hover{
+        transform:translateY(-2px);
+        box-shadow:0 14px 28px rgba(0,98,49,0.20);
+      }
+
       .wc-project-toolbar{
         display:flex;
         flex-wrap:wrap;
@@ -688,6 +718,17 @@ function renderProjects(){
           margin-top:14px;
         }
 
+        .wc-project-full-search-row{
+          margin:18px 0 20px 0;
+        }
+
+        .wc-project-full-search-link{
+          width:100%;
+          min-height:48px;
+          padding:0 18px;
+          font-size:13px;
+        }
+
         .wc-project-toolbar{
           padding:16px !important;
           border-radius:20px;
@@ -871,6 +912,12 @@ function renderProjects(){
           </p>
         </div>
 
+        ${!isFullView ? `
+          <div class="wc-project-full-search-row">
+            <a class="wc-project-full-search-link" href="https://budget-pixel.github.io/walton-cip-project-search/?view=all&v=6" target="_blank" rel="noopener noreferrer">Open Full Project Search</a>
+          </div>
+        ` : ""}
+
         <div class="wc-project-toolbar">
 
           <div class="wc-project-search-wrap">
@@ -936,7 +983,7 @@ function renderProjects(){
           No projects match your search criteria.
         </div>
 
-        ${!isFullView && filtered.length > visibleLimit ? `<button class="wc-project-load-more" type="button" style="display:block;">Open Full Project Search</button>` : ""}
+        
 
       </div>
     </section>
@@ -977,17 +1024,7 @@ function renderProjects(){
       });
     });
 
-  const loadMore = document.querySelector(".wc-project-load-more");
-
-  if(loadMore){
-    loadMore.addEventListener("click", () => {
-      window.open(
-        "https://budget-pixel.github.io/walton-cip-project-search/?view=all&v=6",
-        "_blank",
-        "noopener,noreferrer"
-      );
-    });
-  }
+  
 
   document.querySelectorAll(".wc-project-card").forEach(card => {
     const description = card.querySelector(".wc-project-description");
