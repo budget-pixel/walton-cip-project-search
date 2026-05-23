@@ -1016,7 +1016,7 @@ function renderProjects(){
       const projectUrl = card.dataset.projectUrl;
 
       if(projectUrl){
-        window.open(projectUrl, "_blank", "noopener,noreferrer");
+        window.location.href = projectUrl;
       }
     });
 
@@ -1034,7 +1034,7 @@ function renderProjects(){
       const projectUrl = card.dataset.projectUrl;
 
       if(projectUrl){
-        window.open(projectUrl, "_blank", "noopener,noreferrer");
+        window.location.href = projectUrl;
       }
     });
   });
