@@ -696,11 +696,22 @@ function escapeHtml(value){
     .replace(/'/g,"&#039;");
 }
 
+
 function displayValue(value, fallback = "Not specified"){
   if(value === null || value === undefined || String(value).trim() === ""){
     return fallback;
   }
   return escapeHtml(value);
+}
+
+function hasDisplayValue(value){
+  if(value === null || value === undefined){
+    return false;
+  }
+
+  const text = String(value).trim();
+
+  return text !== "" && text.toLowerCase() !== "not specified" && text.toLowerCase() !== "tbd";
 }
 
 function getProjectValue(project, keys, fallback = "Not specified"){
@@ -719,8 +730,25 @@ function buildBackHref(){
 }
 
 function renderListItem(label, value){
+  if(!hasDisplayValue(value)){
+    return "";
+  }
+
   return `
     <div class="wc-project-list-item">
+      <span>${escapeHtml(label)}</span>
+      <strong>${displayValue(value)}</strong>
+    </div>
+  `;
+}
+
+function renderTimelineItem(label, value){
+  if(!hasDisplayValue(value)){
+    return "";
+  }
+
+  return `
+    <div class="wc-project-timeline-item">
       <span>${escapeHtml(label)}</span>
       <strong>${displayValue(value)}</strong>
     </div>
@@ -1037,22 +1065,10 @@ if(!project){
           <section class="wc-project-panel">
             <h2>Status & Timeline</h2>
             <div class="wc-project-timeline">
-              <div class="wc-project-timeline-item">
-                <span>Status</span>
-                <strong>${displayValue(statusText)}</strong>
-              </div>
-              <div class="wc-project-timeline-item">
-                <span>Start Date</span>
-                <strong>${displayValue(project.start_date)}</strong>
-              </div>
-              <div class="wc-project-timeline-item">
-                <span>Estimated Completion</span>
-                <strong>${displayValue(project.estimated_completion_date)}</strong>
-              </div>
-              <div class="wc-project-timeline-item">
-                <span>Target Year</span>
-                <strong>${displayValue(target)}</strong>
-              </div>
+              ${renderTimelineItem("Status", statusText)}
+              ${renderTimelineItem("Start Date", project.start_date)}
+              ${renderTimelineItem("Estimated Completion", project.estimated_completion_date)}
+              ${renderTimelineItem("Target Year", target)}
             </div>
           </section>
 
