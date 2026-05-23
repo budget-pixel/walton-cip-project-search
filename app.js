@@ -4,7 +4,9 @@ const defaultVisibleCount = 9;
 const loadMoreIncrement = 9;
 const urlParams = new URLSearchParams(window.location.search);
 
+
 const isFullView = urlParams.get("view") === "all";
+const incomingSearch = String(urlParams.get("q") || "").trim().toLowerCase();
 
 const WC_CIP_BASE_URL = "https://budget-pixel.github.io/walton-cip-project-search/";
 
@@ -23,7 +25,7 @@ const filters = {
   department: "all",
   year: "all",
   fund: "all",
-  search: ""
+  search: incomingSearch
 };
 
 function escapeHtml(value){
@@ -993,7 +995,7 @@ function renderProjects(){
 
   if(searchField){
     searchField.addEventListener("input", e => {
-      filters.search = e.target.value.toLowerCase();
+      filters.search = e.target.value.trim().toLowerCase();
       resetVisibleLimit();
 
       clearTimeout(window.wcProjectSearchTimer);
