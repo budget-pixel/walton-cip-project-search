@@ -699,11 +699,59 @@ function escapeHtml(value){
 }
 
 
+
 function displayValue(value, fallback = "Not specified"){
   if(value === null || value === undefined || String(value).trim() === ""){
     return fallback;
   }
   return escapeHtml(value);
+}
+
+function parseBudgetAmount(value){
+  if(value === null || value === undefined){
+    return null;
+  }
+
+  let text = String(value).trim();
+
+  if(!text || text.toLowerCase() === "not specified" || text.toLowerCase() === "tbd"){
+    return null;
+  }
+
+  text = text.replace(/\$/g, "").replace(/,/g, "").trim();
+
+  const multiplierMatch = text.match(/^(-?\d+(?:\.\d+)?)\s*([kKmMbB])$/);
+
+  if(multiplierMatch){
+    const number = Number(multiplierMatch[1]);
+    const suffix = multiplierMatch[2].toLowerCase();
+
+    if(!Number.isFinite(number)){
+      return null;
+    }
+
+    if(suffix === "k") return number * 1000;
+    if(suffix === "m") return number * 1000000;
+    if(suffix === "b") return number * 1000000000;
+  }
+
+  const numeric = Number(text);
+
+  if(!Number.isFinite(numeric)){
+    return null;
+  }
+
+  return numeric;
+}
+
+function displayBudgetValue(value, fallback = "Not specified"){
+  const amount = parseBudgetAmount(value);
+
+  if(amount === null){
+    return displayValue(value, fallback);
+  }
+
+  return escapeHtml(Math.round(amount).toLocaleString("en-US"));
 }
 
 function hasDisplayValue(value){
@@ -911,7 +959,7 @@ function renderFundingBreakdown(project){
       ${yearlyFunding.map(item => `
         <div class="wc-project-year-row">
           <span>${displayValue(item.year)}</span>
-          <strong>${displayValue(item.amount)}</strong>
+          <strong>${displayBudgetValue(item.amount)}</strong>
         </div>
       `).join("")}
     </div>
@@ -1036,7 +1084,7 @@ if(!project){
 
             <div class="wc-project-budget-highlight">
               <span>Project Budget</span>
-              <strong>${displayValue(budget)}</strong>
+              <strong>${displayBudgetValue(budget)}</strong>
             </div>
 
             <div class="wc-project-list">
