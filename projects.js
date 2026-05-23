@@ -2294,6 +2294,12 @@ const wcProjects = [
   {
     title: "Poinciana Blvd & Scenic Hwy 98 Intersection Signalization",
     slug: "poinciana-blvd-and-scenic-hwy-98-intersection-signalization",
+    images: [
+      {
+        url: "images/poinciana-signalization-plan.jpg",
+        caption: "Intersection improvement concept"
+      }
+    ],
     proposal_name: "PW Poinciana Blvd & Scenic Hwy 98 Intersection Signalization",
     dept: "Public Works/Engineering",
     project_manager: "County Engineering",
@@ -2756,6 +2762,12 @@ const wcProjects = [
   {
     title: "Sugar Drive Connector Rd",
     slug: "sugar-drive-connector-rd",
+    images: [
+      {
+        url: "images/sugar-drive-connector-rd-rendering.jpg",
+        caption: "Project rendering"
+      }
+    ],
     proposal_name: "PW Sugar Drive Connector Rd",
     dept: "Public Works/Engineering",
     project_manager: "County Engineering",
@@ -3438,6 +3450,16 @@ const wcProjects = [
   {
     title: "Fleet Shop - including EV",
     slug: "fleet-shop-including-ev",
+    images: [
+      {
+        url: "images/fleet-shop-including-ev-rendering.jpg",
+        caption: "Concept rendering"
+      },
+      {
+        url: "images/fleet-shop-including-ev-site-plan.jpg",
+        caption: "Preliminary site plan"
+      }
+    ],
     proposal_name: "Sheriff Fleet Shop Including EV",
     dept: "Sheriff",
     project_manager: "",
