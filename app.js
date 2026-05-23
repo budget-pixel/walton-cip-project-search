@@ -867,7 +867,7 @@ function renderProjects(){
           <span>Capital Project Search</span>
           <h2>Searchable Project Index</h2>
           <p>
-            Browse, search, and filter Walton County capital improvement projects by department, category, funding source, and implementation phase. This project index is populated from the CIP export and is designed to help residents quickly locate projects relevant to their community.
+            Browse, search, and filter Walton County capital improvement projects by department, year, and funding source. This project index is populated from the CIP export and is designed to help residents quickly locate projects relevant to their community.
           </p>
         </div>
 
